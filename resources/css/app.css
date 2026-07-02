@@ -1,3 +1,32 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        background-color: #1e2235;
+        color: #fff;
+    }
+
+    ::selection {
+        background-color: rgba(74, 222, 128, 0.2);
+        color: #fff;
+    }
+
+    ::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: #1e2235;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: #4ade80;
+        border-radius: 3px;
+    }
+}

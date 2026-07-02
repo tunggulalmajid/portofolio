@@ -1,0 +1,52 @@
+import AdminLayout from '@/Layouts/AdminLayout';
+import { Link, router, usePage } from '@inertiajs/react';
+import { Certificate, PaginatedData, FlashMessage } from '@/types';
+import { Plus, Edit, Trash2, Award, ExternalLink } from 'lucide-react';
+
+interface Props { certificates: PaginatedData<Certificate>; }
+
+export default function CertificateIndex({ certificates }: Props) {
+    const page = usePage(); const flash = (page.props as any).flash as FlashMessage | undefined;
+    const handleDelete = (id: number) => {
+        if (confirm('Delete this certificate?')) router.delete(`/admin/certificates/${id}`);
+    };
+    return (
+        <AdminLayout title="Manage Certificates">
+            <div className="space-y-6">
+                {flash?.success && <div className="p-4 bg-green-400/10 border border-green-400/20 text-green-400 rounded-xl text-sm">{flash.success}</div>}
+                <div className="flex items-center justify-between">
+                    <div><h2 className="text-xl font-bold text-white">Certificates</h2><p className="text-gray-400 text-sm mt-1">{certificates.total} total</p></div>
+                    <Link href="/admin/certificates/create" className="inline-flex items-center gap-2 px-4 py-2 bg-green-400 hover:bg-green-300 text-[#1e2235] font-semibold rounded-xl text-sm">
+                        <Plus size={16} /> Add Certificate
+                    </Link>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {certificates.data.map((cert) => (
+                        <div key={cert.id} className="bg-[#1e2235] border border-white/5 rounded-xl p-5 space-y-3 hover:border-green-400/20 transition-colors">
+                            <div className="flex items-start justify-between">
+                                <div className="w-10 h-10 bg-green-400/10 border border-green-400/20 rounded-lg flex items-center justify-center">
+                                    {cert.image_url ? <img src={cert.image_url} alt="" className="w-8 h-8 object-contain rounded" /> : <Award size={20} className="text-green-400" />}
+                                </div>
+                                <span className={`px-2 py-0.5 text-xs rounded-full border ${cert.is_active ? 'bg-green-400/10 text-green-400 border-green-400/20' : 'bg-white/5 text-gray-500 border-white/10'}`}>
+                                    {cert.is_active ? 'Active' : 'Inactive'}
+                                </span>
+                            </div>
+                            <div>
+                                <p className="text-white font-medium text-sm">{cert.title}</p>
+                                <p className="text-gray-400 text-xs mt-0.5">{cert.issuer}</p>
+                            </div>
+                            <div className="flex items-center justify-between">
+                                <span className="text-gray-500 text-xs">{new Date(cert.issue_date).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}</span>
+                                <div className="flex gap-1">
+                                    {cert.credential_url && <a href={cert.credential_url} target="_blank" rel="noopener noreferrer" className="p-1.5 text-gray-500 hover:text-white hover:bg-white/10 rounded-lg"><ExternalLink size={14} /></a>}
+                                    <Link href={`/admin/certificates/${cert.id}/edit`} className="p-1.5 text-gray-500 hover:text-white hover:bg-white/10 rounded-lg"><Edit size={14} /></Link>
+                                    <button onClick={() => handleDelete(cert.id)} className="p-1.5 text-gray-500 hover:text-red-400 hover:bg-red-400/10 rounded-lg"><Trash2 size={14} /></button>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </AdminLayout>
+    );
+}
