@@ -2,7 +2,9 @@ import { Head, Link } from '@inertiajs/react';
 import { Project } from '@/types';
 import Navbar from '@/Components/Navbar';
 import Footer from '@/Components/Footer';
-import { ExternalLink, ArrowLeft, ArrowRight, Calendar, Tag, GitBranch } from 'lucide-react';
+import { ExternalLink, ArrowLeft, ArrowRight, Calendar, Tag, GitBranch, X, ChevronLeft, ChevronRight } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 
 interface ProjectShowProps {
     project: Project;
@@ -16,15 +18,61 @@ const statusColors: Record<string, string> = {
 };
 
 export default function ProjectShow({ project, related }: ProjectShowProps) {
+    const [lightboxOpen, setLightboxOpen] = useState(false);
+    const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+    const openLightbox = (index: number) => {
+        setCurrentImageIndex(index);
+        setLightboxOpen(true);
+    };
+
+    const closeLightbox = () => setLightboxOpen(false);
+
+    const nextImage = () => {
+        if (project.images_url) {
+            setCurrentImageIndex((prev) => (prev + 1) % project.images_url.length);
+        }
+    };
+
+    const prevImage = () => {
+        if (project.images_url) {
+            setCurrentImageIndex((prev) => (prev - 1 + project.images_url.length) % project.images_url.length);
+        }
+    };
+
+    // Keyboard navigation
+    useEffect(() => {
+        if (!lightboxOpen) return;
+
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (e.key === 'Escape') closeLightbox();
+            if (e.key === 'ArrowRight') nextImage();
+            if (e.key === 'ArrowLeft') prevImage();
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, [lightboxOpen, currentImageIndex]);
+
     return (
         <>
-            <Head title={project.title} />
+            <Head title={`${project.title} - Tunggul Abdul Majid`} />
             <div className="min-h-screen bg-[#1e2235] text-white">
                 <Navbar />
 
-                <article className="pt-24">
+                <motion.article 
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.5 }}
+                    className="pt-24"
+                >
                     {/* Header */}
-                    <div className="relative py-16 overflow-hidden">
+                    <motion.div 
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6, delay: 0.1 }}
+                        className="relative py-16 overflow-hidden"
+                    >
                         <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:60px_60px]" />
                         <div className="absolute top-0 right-0 w-96 h-96 bg-green-400/5 rounded-full blur-3xl pointer-events-none" />
 
@@ -66,14 +114,19 @@ export default function ProjectShow({ project, related }: ProjectShowProps) {
                                 )}
                             </div>
                         </div>
-                    </div>
+                    </motion.div>
 
                     {/* Thumbnail */}
                     {project.thumbnail_url && (
-                        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
+                        <motion.div 
+                            initial={{ opacity: 0, y: 30 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.6, delay: 0.2 }}
+                            className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mb-16"
+                        >
                             <img src={project.thumbnail_url} alt={project.title}
                                 className="w-full rounded-2xl border border-white/5 shadow-2xl" />
-                        </div>
+                        </motion.div>
                     )}
 
                     {/* Content */}
@@ -93,8 +146,12 @@ export default function ProjectShow({ project, related }: ProjectShowProps) {
                                         <h3 className="text-xl font-bold text-white mb-6">Screenshots</h3>
                                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                             {project.images_url.map((img, i) => (
-                                                <img key={i} src={img} alt={`Screenshot ${i + 1}`}
-                                                    className="rounded-xl border border-white/5 w-full" />
+                                                <div key={i} className="cursor-pointer group relative aspect-video rounded-xl border border-white/5 overflow-hidden" onClick={() => openLightbox(i)}>
+                                                    <img src={img} alt={`Screenshot ${i + 1}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                                                    <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                                        <span className="text-white text-sm font-medium">Click to view</span>
+                                                    </div>
+                                                </div>
                                             ))}
                                         </div>
                                     </div>
@@ -160,7 +217,7 @@ export default function ProjectShow({ project, related }: ProjectShowProps) {
                             </div>
                         </div>
                     </div>
-                </article>
+                </motion.article>
 
                 {related.length > 0 && (
                     <section className="py-16 border-t border-white/5 bg-[#151929]">
@@ -184,6 +241,47 @@ export default function ProjectShow({ project, related }: ProjectShowProps) {
 
                 <Footer />
             </div>
+
+            {/* Lightbox Modal */}
+            {lightboxOpen && project.images_url && (
+                <div className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center p-4" onClick={closeLightbox}>
+                    {/* Close Button */}
+                    <button onClick={closeLightbox} className="absolute top-4 right-4 p-2 text-white hover:bg-white/10 rounded-lg transition-colors z-10">
+                        <X size={24} />
+                    </button>
+
+                    {/* Image Counter */}
+                    <div className="absolute top-4 left-4 px-3 py-1.5 bg-black/50 text-white text-sm rounded-lg backdrop-blur-sm">
+                        {currentImageIndex + 1} / {project.images_url.length}
+                    </div>
+
+                    {/* Navigation Buttons */}
+                    {project.images_url.length > 1 && (
+                        <>
+                            <button onClick={(e) => { e.stopPropagation(); prevImage(); }} className="absolute left-4 p-3 text-white hover:bg-white/10 rounded-lg transition-colors">
+                                <ChevronLeft size={32} />
+                            </button>
+                            <button onClick={(e) => { e.stopPropagation(); nextImage(); }} className="absolute right-4 p-3 text-white hover:bg-white/10 rounded-lg transition-colors">
+                                <ChevronRight size={32} />
+                            </button>
+                        </>
+                    )}
+
+                    {/* Image */}
+                    <img src={project.images_url[currentImageIndex]} alt={`Screenshot ${currentImageIndex + 1}`} className="max-h-[90vh] max-w-full object-contain" onClick={(e) => e.stopPropagation()} />
+
+                    {/* Thumbnail Navigation */}
+                    {project.images_url.length > 1 && (
+                        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 max-w-[90vw] overflow-x-auto px-4 py-2 bg-black/50 rounded-lg backdrop-blur-sm" onClick={(e) => e.stopPropagation()}>
+                            {project.images_url.map((img, i) => (
+                                <button key={i} onClick={() => setCurrentImageIndex(i)} className={`shrink-0 w-16 h-16 rounded overflow-hidden border-2 transition-all ${ i === currentImageIndex ? 'border-green-400 scale-110' : 'border-white/20 opacity-60 hover:opacity-100' }`}>
+                                    <img src={img} alt={`Thumb ${i + 1}`} className="w-full h-full object-cover" />
+                                </button>
+                            ))}
+                        </div>
+                    )}
+                </div>
+            )}
         </>
     );
 }

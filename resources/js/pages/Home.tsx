@@ -9,6 +9,7 @@ import ProjectsSection from '@/Components/sections/ProjectsSection';
 import CertificatesSection from '@/Components/sections/CertificatesSection';
 import SkillsSection from '@/Components/sections/SkillsSection';
 import ContactSection from '@/Components/sections/ContactSection';
+import { motion } from 'framer-motion';
 
 interface HomeProps {
     hero: Hero | null;
@@ -17,18 +18,19 @@ interface HomeProps {
     projects: Project[];
     certificates: Certificate[];
     skills: Record<string, Skill[]>;
+    allSkills: Skill[];
     contacts: Contact[];
 }
 
-export default function Home({ hero, about, experiences, projects, certificates, skills, contacts }: HomeProps) {
+export default function Home({ hero, about, experiences, projects, certificates, skills, allSkills, contacts }: HomeProps) {
     return (
         <>
-            <Head title="Tunggul Abdul Majid - Portfolio" />
+            <Head title="Home - Tunggul Abdul Majid" />
             <div className="min-h-screen bg-[#1e2235] text-white">
                 <Navbar />
                 <HeroSection hero={hero} />
                 <AboutSection about={about} />
-                <SkillsSection skills={skills} />
+                <SkillsSection skills={skills} allSkills={allSkills} />
                 <ExperienceSection experiences={experiences} />
                 <ProjectsSection projects={projects} />
                 <CertificatesSection certificates={certificates} />

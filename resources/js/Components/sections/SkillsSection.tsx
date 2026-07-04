@@ -1,85 +1,144 @@
-import { Skill } from '@/types';
+import * as LucideIcons from 'lucide-react';
+import type { Skill } from '@/types';
+import { motion } from 'framer-motion';
 
 interface SkillsSectionProps {
     skills: Record<string, Skill[]>;
+    allSkills: Skill[];
 }
 
-// Tools untuk scrolling bar (hardcoded karena hanya tampilan)
-const tools = [
-    'Git', 'GitHub', 'Docker', 'Linux', 'VS Code', 'Figma', 'Postman',
-    'Nginx', 'Redis', 'Firebase', 'Vercel', 'AWS', 'CI/CD', 'Bash',
-    'Git', 'GitHub', 'Docker', 'Linux', 'VS Code', 'Figma', 'Postman',
-    'Nginx', 'Redis', 'Firebase', 'Vercel', 'AWS', 'CI/CD', 'Bash',
-];
+// Helper untuk render Lucide icon dinamis
+function renderIcon(iconName: string | null, size = 16) {
+    if (!iconName) {
+        return null;
+    }
+
+    const Icon = (LucideIcons as any)[iconName];
+
+    if (!Icon) {
+        return null;
+    }
+
+    return <Icon size={size} />;
+}
 
 // Urutan kategori yang diinginkan
 const categoryOrder = ['Frontend', 'Backend', 'Mobile', 'DevOps'];
 
 // Icon emoji per kategori
-const categoryIcon: Record<string, string> = {
-    Frontend: '🎨',
-    Backend: '⚙️',
-    Mobile: '📱',
-    DevOps: '🚀',
+
+// Deskripsi singkat per kategori
+const categoryDescription: Record<string, string> = {
+    Frontend:
+        'Membangun tampilan yang responsif, interaktif, dan nyaman digunakan.',
+    Backend: 'Merancang logika server, API, dan struktur data yang solid.',
+    Mobile: 'Mengembangkan aplikasi mobile lintas platform yang performant.',
+    DevOps: 'Mengelola infrastruktur, deployment, dan workflow pengembangan.',
 };
 
-export default function SkillsSection({ skills }: SkillsSectionProps) {
+export default function SkillsSection({
+    skills,
+    allSkills,
+}: SkillsSectionProps) {
     // Filter hanya 4 kategori utama, urutkan sesuai categoryOrder
-    const categories = categoryOrder.filter((cat) => skills[cat] && skills[cat].length > 0);
+    const categories = categoryOrder.filter(
+        (cat) => skills[cat] && skills[cat].length > 0,
+    );
 
-    if (categories.length === 0) return null;
+    // Duplikat array untuk infinite scrolling effect
+    const scrollingSkills = [...allSkills, ...allSkills];
+
+    if (categories.length === 0) {
+        return null;
+    }
 
     return (
-        <section id="skills" className="py-24 bg-[#151929] relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-96 h-96 bg-green-400/3 rounded-full blur-3xl pointer-events-none" />
+        <section
+            id="skills"
+            className="relative overflow-hidden bg-[#151929] py-24"
+        >
+            <div className="bg-green-400/3 pointer-events-none absolute right-0 top-0 h-96 w-96 rounded-full blur-3xl" />
 
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 {/* Section Header */}
-                <div className="text-center mb-16">
-                    <p className="text-green-400 font-medium text-sm tracking-widest uppercase mb-2">What I Work With</p>
-                    <h2 className="text-4xl font-bold text-white">Skills & Technologies</h2>
-                    <div className="mt-4 w-12 h-0.5 bg-green-400 mx-auto" />
+                <div className="mb-16 text-center">
+                    <p className="mb-2 text-sm font-medium uppercase tracking-widest text-green-400">
+                        What I Work With
+                    </p>
+                    <h2 className="text-4xl font-bold text-white">
+                        Skills & Technologies
+                    </h2>
+                    <div className="mx-auto mt-4 h-0.5 w-12 bg-green-400" />
                 </div>
 
                 {/* Category cards — 2x2 grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
-                    {categories.map((category) => (
-                        <div
+                <div className="mb-16 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+                    {categories.map((category, index) => (
+                        <motion.div
                             key={category}
-                            className="bg-[#1e2235] border border-white/5 hover:border-green-400/20 rounded-2xl p-6 transition-all"
+                            initial={{ opacity: 0, scale: 0.9 }}
+                            whileInView={{ opacity: 1, scale: 1 }}
+                            viewport={{ once: true, margin: "-50px" }}
+                            transition={{ duration: 0.4, delay: index * 0.1 }}
+                            whileHover={{ scale: 1.05, y: -5 }}
+                            className="rounded-2xl border border-white/5 bg-[#1e2235] p-6 transition-all hover:border-green-400/20"
                         >
                             {/* Category header */}
-                            <div className="flex items-center gap-3 mb-5">
-                                <span className="text-xl">{categoryIcon[category] ?? '💡'}</span>
-                                <h3 className="text-white font-semibold">{category}</h3>
+                            <div className="mb-3 flex items-center gap-3">
+                                <h3 className="font-semibold text-white">
+                                    {category}
+                                </h3>
                             </div>
 
-                            {/* Tech badges only — no progress bar */}
+                            {/* Category description */}
+                            {categoryDescription[category] && (
+                                <p className="mb-5 text-xs leading-relaxed text-gray-500">
+                                    {categoryDescription[category]}
+                                </p>
+                            )}
+
+                            {/* Tech badges dengan icon Lucide */}
                             <div className="flex flex-wrap gap-2">
                                 {skills[category].map((skill) => (
                                     <span
                                         key={skill.id}
-                                        className="px-2.5 py-1 bg-[#151929] border border-white/5 text-gray-300 text-xs rounded-lg hover:border-green-400/30 hover:text-green-400 transition-all"
+                                        className="flex items-center gap-1.5 rounded-lg border bg-[#151929] px-2.5 py-1.5 text-xs transition-all hover:border-opacity-50"
+                                        style={{
+                                            borderColor: skill.color
+                                                ? `${skill.color}30`
+                                                : 'rgba(255,255,255,0.05)',
+                                            color: skill.color || '#d1d5db',
+                                        }}
                                     >
-                                        {skill.name}
+                                        {renderIcon(skill.icon_name, 14)}
+                                        <span>{skill.name}</span>
                                     </span>
                                 ))}
                             </div>
-                        </div>
+                        </motion.div>
                     ))}
                 </div>
 
-                {/* Scrolling Tools Bar */}
+                {/* Scrolling Tools Bar - menampilkan semua skills aktif */}
                 <div className="relative overflow-hidden">
-                    <p className="text-center text-xs text-gray-500 uppercase tracking-widest mb-4">Tools & Environment</p>
+                    <p className="mb-4 text-center text-xs uppercase tracking-widest text-gray-500">
+                        All Skills & Technologies
+                    </p>
                     <div className="flex overflow-hidden [mask-image:linear-gradient(to_right,transparent,white_10%,white_90%,transparent)]">
-                        <div className="flex gap-4 animate-scroll-left whitespace-nowrap">
-                            {tools.map((tool, i) => (
+                        <div className="flex animate-scroll-left gap-4 whitespace-nowrap">
+                            {scrollingSkills.map((skill, i) => (
                                 <span
-                                    key={i}
-                                    className="inline-flex items-center px-4 py-2 bg-[#1e2235] border border-white/5 text-gray-400 text-sm rounded-xl shrink-0"
+                                    key={`${skill.id}-${i}`}
+                                    className="inline-flex shrink-0 items-center gap-2 rounded-xl border bg-[#1e2235] px-4 py-2 text-sm"
+                                    style={{
+                                        borderColor: skill.color
+                                            ? `${skill.color}30`
+                                            : 'rgba(255,255,255,0.05)',
+                                        color: skill.color || '#9ca3af',
+                                    }}
                                 >
-                                    {tool}
+                                    {renderIcon(skill.icon_name, 16)}
+                                    <span>{skill.name}</span>
                                 </span>
                             ))}
                         </div>

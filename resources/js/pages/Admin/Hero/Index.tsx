@@ -8,18 +8,9 @@ interface HeroIndexProps {
 }
 
 export default function HeroIndex({ hero }: HeroIndexProps) {
-    const page = usePage();
-    const flash = (page.props as any).flash as FlashMessage | undefined;
-
     return (
         <AdminLayout title="Manage Hero">
             <div className="space-y-6">
-                {flash?.success && (
-                    <div className="p-4 bg-green-400/10 border border-green-400/20 text-green-400 rounded-xl text-sm">
-                        {flash.success}
-                    </div>
-                )}
-
                 <div className="flex items-center justify-between">
                     <div>
                         <h2 className="text-xl font-bold text-white">Hero Section</h2>

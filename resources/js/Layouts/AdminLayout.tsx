@@ -1,9 +1,10 @@
 import { Link, usePage, router } from '@inertiajs/react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
     LayoutDashboard, User, Code2, Briefcase, Award, BookOpen,
     Phone, ChevronLeft, ChevronRight, LogOut, Menu, X, ExternalLink
 } from 'lucide-react';
+import { Toaster, toast } from 'react-hot-toast';
 
 interface AdminLayoutProps {
     title?: string;
@@ -12,6 +13,7 @@ interface AdminLayoutProps {
 
 const menuItems = [
     { label: 'Dashboard', href: '/admin', icon: LayoutDashboard },
+    { label: 'Messages', href: '/admin/messages', icon: Phone },
     { label: 'Hero', href: '/admin/hero', icon: User },
     { label: 'About', href: '/admin/about', icon: BookOpen },
     { label: 'Experience', href: '/admin/experiences', icon: Briefcase },
@@ -27,6 +29,23 @@ export default function AdminLayout({ title, children }: AdminLayoutProps) {
     const { url } = usePage();
     const page = usePage();
     const auth = (page.props as any).auth as { user: { name: string; email: string } };
+    const flash = (page.props as any).flash as { success?: string; error?: string } | undefined;
+
+    // Handle flash messages
+    useEffect(() => {
+        if (flash?.success) {
+            toast.success(flash.success, {
+                duration: 4000,
+                position: 'top-right',
+            });
+        }
+        if (flash?.error) {
+            toast.error(flash.error, {
+                duration: 5000,
+                position: 'top-right',
+            });
+        }
+    }, [flash]);
 
     const handleLogout = () => {
         router.post('/logout');
@@ -47,7 +66,7 @@ export default function AdminLayout({ title, children }: AdminLayoutProps) {
             <div className="flex items-center justify-between h-16 px-4 border-b border-white/5">
                 {(!collapsed || isMobile) && (
                     <Link href="/" className="text-lg font-bold text-white hover:text-green-400 transition-colors flex items-center gap-2">
-                        tunggulmajid<span className="text-green-400">.</span>
+                        tunggulalmajid<span className="text-green-400">.</span>
                         <ExternalLink size={14} className="text-gray-500" />
                     </Link>
                 )}
@@ -108,6 +127,38 @@ export default function AdminLayout({ title, children }: AdminLayoutProps) {
 
     return (
         <>
+            {/* Toast Notifications */}
+            <Toaster
+                toastOptions={{
+                    className: '',
+                    style: {
+                        background: '#1e2235',
+                        color: '#fff',
+                        border: '1px solid rgba(255, 255, 255, 0.05)',
+                        borderRadius: '12px',
+                        padding: '16px',
+                    },
+                    success: {
+                        iconTheme: {
+                            primary: '#4ade80',
+                            secondary: '#1e2235',
+                        },
+                        style: {
+                            border: '1px solid rgba(74, 222, 128, 0.2)',
+                        },
+                    },
+                    error: {
+                        iconTheme: {
+                            primary: '#f87171',
+                            secondary: '#1e2235',
+                        },
+                        style: {
+                            border: '1px solid rgba(248, 113, 113, 0.2)',
+                        },
+                    },
+                }}
+            />
+
             {/* Mobile overlay */}
             {mobileOpen && (
                 <div className="fixed inset-0 z-40 md:hidden">

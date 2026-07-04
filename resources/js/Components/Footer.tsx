@@ -29,7 +29,7 @@ export default function Footer({ contacts = [] }: FooterProps) {
                     {/* Col 1: Logo & tagline */}
                     <div className="space-y-4">
                         <a href="/" className="text-2xl font-bold text-white hover:opacity-80 transition-opacity">
-                            tunggulmajid<span className="text-green-400">.</span>
+                            tunggulalmajid<span className="text-green-400">.</span>
                         </a>
                         <p className="text-gray-500 text-sm leading-relaxed">
                             Full Stack Developer passionate about building clean, functional, and beautiful web experiences.

@@ -21,20 +21,21 @@ function SkillForm({ onSubmit, processing, data, setData, errors }: any) {
                     </div>
                     <div>
                         <label className="block text-sm font-medium text-gray-400 mb-1.5">Category *</label>
-                        <input type="text" value={data.category} onChange={(e: any) => setData('category', e.target.value)} placeholder="e.g. Frontend, Backend, Tools" className={inputClass} />
+                        <select value={data.category} onChange={(e: any) => setData('category', e.target.value)} className={inputClass}>
+                            <option value="">Select Category</option>
+                            <option value="Frontend">Frontend</option>
+                            <option value="Backend">Backend</option>
+                            <option value="Mobile">Mobile</option>
+                            <option value="DevOps">DevOps</option>
+                        </select>
                         {errors.category && <p className="text-red-400 text-xs mt-1">{errors.category}</p>}
                     </div>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                        <label className="block text-sm font-medium text-gray-400 mb-1.5">Proficiency (0-100) *</label>
-                        <input type="number" min={0} max={100} value={data.proficiency} onChange={(e: any) => setData('proficiency', Number(e.target.value))} className={inputClass} />
-                        {errors.proficiency && <p className="text-red-400 text-xs mt-1">{errors.proficiency}</p>}
-                        <div className="mt-2 h-2 bg-[#151929] rounded-full">
-                            <div className="h-full rounded-full bg-green-400 transition-all" style={{ width: `${data.proficiency}%` }} />
-                        </div>
-                    </div>
-                    <div>
-                        <label className="block text-sm font-medium text-gray-400 mb-1.5">Icon (class or emoji)</label>
-                        <input type="text" value={data.icon} onChange={(e: any) => setData('icon', e.target.value)} placeholder="e.g. devicon-react-plain" className={inputClass} />
+                        <label className="block text-sm font-medium text-gray-400 mb-1.5">Icon Name (Lucide)</label>
+                        <input type="text" value={data.icon_name ?? ''} onChange={(e: any) => setData('icon_name', e.target.value)} placeholder="e.g. Code2, Database, Smartphone" className={inputClass} />
+                        <p className="text-gray-500 text-xs mt-1">Lihat: <a href="https://lucide.dev/icons" target="_blank" rel="noopener" className="text-green-400 hover:underline">lucide.dev/icons</a></p>
                     </div>
                     <div>
                         <label className="block text-sm font-medium text-gray-400 mb-1.5">Color</label>
@@ -62,7 +63,7 @@ function SkillForm({ onSubmit, processing, data, setData, errors }: any) {
 }
 
 export function SkillCreate() {
-    const form = useForm({ name: '', category: '', proficiency: 80, icon: '', color: '#4ade80', order: 0, is_active: true });
+    const form = useForm({ name: '', category: '', icon_name: '', color: '#4ade80', order: 0, is_active: true });
     const handleSubmit = (e: React.FormEvent) => { e.preventDefault(); form.post('/admin/skills'); };
     return (
         <AdminLayout title="Add Skill">
@@ -78,7 +79,7 @@ export function SkillCreate() {
 }
 
 export default function SkillEdit({ skill }: Props) {
-    const form = useForm({ name: skill?.name ?? '', category: skill?.category ?? '', proficiency: skill?.proficiency ?? 80, icon: skill?.icon ?? '', color: skill?.color ?? '#4ade80', order: skill?.order ?? 0, is_active: skill?.is_active ?? true, _method: 'PUT' });
+    const form = useForm({ name: skill?.name ?? '', category: skill?.category ?? '', icon_name: skill?.icon_name ?? '', color: skill?.color ?? '#4ade80', order: skill?.order ?? 0, is_active: skill?.is_active ?? true, _method: 'PUT' });
     const handleSubmit = (e: React.FormEvent) => { e.preventDefault(); form.post(`/admin/skills/${skill?.id}`); };
     return (
         <AdminLayout title="Edit Skill">

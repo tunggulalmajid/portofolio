@@ -4,6 +4,7 @@ import { Project, PaginatedData } from '@/types';
 import Navbar from '@/Components/Navbar';
 import Footer from '@/Components/Footer';
 import { Search, ExternalLink, ArrowRight, GitBranch } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 interface ProjectsIndexProps {
     projects: PaginatedData<Project>;
@@ -31,23 +32,28 @@ export default function ProjectsIndex({ projects, categories, filters }: Project
 
     return (
         <>
-            <Head title="Projects" />
+            <Head title="Projects - Tunggul Abdul Majid" />
             <div className="min-h-screen bg-[#1e2235] text-white">
                 <Navbar />
 
                 {/* Header */}
-                <section className="pt-32 pb-16 relative overflow-hidden">
+                <motion.section 
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6 }}
+                    className="pt-32 pb-16 relative overflow-hidden"
+                >
                     <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:60px_60px]" />
                     <div className="absolute top-0 right-0 w-96 h-96 bg-green-400/5 rounded-full blur-3xl pointer-events-none" />
                     <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
                         <p className="text-green-400 font-medium text-sm tracking-widest uppercase mb-2">My Portfolio</p>
-                        <h1 className="text-5xl font-bold text-white mb-4">Project Gallery</h1>
+                        <h1 className="text-4xl sm:text-5xl font-bold text-white mb-4">Project Gallery</h1>
                         <p className="text-gray-400 max-w-2xl mx-auto">
                             A collection of projects I've worked on — from web applications to APIs and everything in between.
                         </p>
                         <div className="mt-6 w-12 h-0.5 bg-green-400 mx-auto" />
                     </div>
-                </section>
+                </motion.section>
 
                 {/* Filters */}
                 <section className="py-6 border-b border-white/5 sticky top-16 bg-[#1e2235]/95 backdrop-blur z-10">

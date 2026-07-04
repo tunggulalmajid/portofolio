@@ -22,7 +22,7 @@ export default function AuthLayout({ title, children }: AuthLayoutProps) {
                     <div className="text-center mb-8">
                         <Link href="/" className="inline-block">
                             <span className="text-3xl font-bold text-white">
-                                tunggulmajid<span className="text-green-400">.</span>
+                                tunggulalmajid<span className="text-green-400">.</span>
                             </span>
                         </Link>
                         <p className="text-gray-500 text-sm mt-2">Admin Panel</p>

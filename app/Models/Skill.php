@@ -10,17 +10,15 @@ class Skill extends Model
     protected $fillable = [
         'name',
         'category',
-        'proficiency',
-        'icon',
+        'icon_name',
         'color',
         'order',
         'is_active',
     ];
 
     protected $casts = [
-        'proficiency' => 'integer',
-        'order'       => 'integer',
-        'is_active'   => 'boolean',
+        'order'     => 'integer',
+        'is_active' => 'boolean',
     ];
 
     public function scopeActive(Builder $query): Builder

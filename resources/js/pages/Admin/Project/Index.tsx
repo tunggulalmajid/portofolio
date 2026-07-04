@@ -12,15 +12,13 @@ const statusColors: Record<string, string> = {
 };
 
 export default function ProjectIndex({ projects }: Props) {
-    const page = usePage(); const flash = (page.props as any).flash as FlashMessage | undefined;
-    const handleDelete = (id: number) => {
-        if (confirm('Delete this project?')) router.delete(`/admin/projects/${id}`);
+    const handleDelete = (slug: string) => {
+        if (confirm('Delete this project?')) router.delete(`/admin/projects/${slug}`);
     };
 
     return (
         <AdminLayout title="Manage Projects">
             <div className="space-y-6">
-                {flash?.success && <div className="p-4 bg-green-400/10 border border-green-400/20 text-green-400 rounded-xl text-sm">{flash.success}</div>}
                 <div className="flex items-center justify-between">
                     <div><h2 className="text-xl font-bold text-white">Projects</h2><p className="text-gray-400 text-sm mt-1">{projects.total} total</p></div>
                     <Link href="/admin/projects/create" className="inline-flex items-center gap-2 px-4 py-2 bg-green-400 hover:bg-green-300 text-[#1e2235] font-semibold rounded-xl text-sm">
@@ -56,8 +54,8 @@ export default function ProjectIndex({ projects }: Props) {
                                         <td className="px-6 py-4 text-right">
                                             <div className="flex items-center justify-end gap-2">
                                                 <a href={`/projects/${project.slug}`} target="_blank" className="p-2 text-gray-400 hover:text-white hover:bg-white/10 rounded-lg transition-all"><ExternalLink size={16} /></a>
-                                                <Link href={`/admin/projects/${project.id}/edit`} className="p-2 text-gray-400 hover:text-white hover:bg-white/10 rounded-lg transition-all"><Edit size={16} /></Link>
-                                                <button onClick={() => handleDelete(project.id)} className="p-2 text-gray-400 hover:text-red-400 hover:bg-red-400/10 rounded-lg transition-all"><Trash2 size={16} /></button>
+                                                <Link href={`/admin/projects/${project.slug}/edit`} className="p-2 text-gray-400 hover:text-white hover:bg-white/10 rounded-lg transition-all"><Edit size={16} /></Link>
+                                                <button onClick={() => handleDelete(project.slug)} className="p-2 text-gray-400 hover:text-red-400 hover:bg-red-400/10 rounded-lg transition-all"><Trash2 size={16} /></button>
                                             </div>
                                         </td>
                                     </tr>

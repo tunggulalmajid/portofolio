@@ -2,6 +2,8 @@ import AdminLayout from '@/Layouts/AdminLayout';
 import { Link, useForm } from '@inertiajs/react';
 import { Contact } from '@/types';
 import { ArrowLeft, Save } from 'lucide-react';
+import { useEffect } from 'react';
+import { toast } from 'react-hot-toast';
 
 interface Props { contact?: Contact; }
 
@@ -69,6 +71,14 @@ function ContactForm({ onSubmit, processing, data, setData, errors }: any) {
 
 export function ContactCreate() {
     const form = useForm({ type: 'email', label: '', value: '', url: '', icon: '', is_active: true, order: 0 });
+    
+    useEffect(() => {
+        if (Object.keys(form.errors).length > 0) {
+            const firstError = Object.values(form.errors)[0];
+            toast.error(firstError || 'Please check the form for errors');
+        }
+    }, [form.errors]);
+    
     const handleSubmit = (e: React.FormEvent) => { e.preventDefault(); form.post('/admin/contacts'); };
     return (
         <AdminLayout title="Add Contact">
@@ -85,6 +95,14 @@ export function ContactCreate() {
 
 export default function ContactEdit({ contact }: Props) {
     const form = useForm({ type: contact?.type ?? 'email', label: contact?.label ?? '', value: contact?.value ?? '', url: contact?.url ?? '', icon: contact?.icon ?? '', is_active: contact?.is_active ?? true, order: contact?.order ?? 0, _method: 'PUT' });
+    
+    useEffect(() => {
+        if (Object.keys(form.errors).length > 0) {
+            const firstError = Object.values(form.errors)[0];
+            toast.error(firstError || 'Please check the form for errors');
+        }
+    }, [form.errors]);
+    
     const handleSubmit = (e: React.FormEvent) => { e.preventDefault(); form.post(`/admin/contacts/${contact?.id}`); };
     return (
         <AdminLayout title="Edit Contact">

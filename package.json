@@ -45,9 +45,11 @@
         "@inertiajs/react": "^2.0.0",
         "axios": "^1.18.1",
         "clsx": "^2.1.1",
+        "framer-motion": "^12.42.2",
         "lucide-react": "^1.23.0",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
+        "react-hot-toast": "^2.6.0",
         "tailwind-merge": "^3.0.1"
     },
     "optionalDependencies": {

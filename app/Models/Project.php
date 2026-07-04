@@ -17,6 +17,7 @@ class Project extends Model
         'images',
         'technologies',
         'category',
+        'year',
         'demo_link',
         'repo_link',
         'status',
@@ -31,7 +32,10 @@ class Project extends Model
         'is_featured'  => 'boolean',
         'is_active'    => 'boolean',
         'order'        => 'integer',
+        'year'         => 'integer',
     ];
+
+    protected $appends = ['thumbnail_url', 'images_url'];
 
     protected static function boot(): void
     {

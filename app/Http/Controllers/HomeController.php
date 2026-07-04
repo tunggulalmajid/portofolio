@@ -21,7 +21,8 @@ class HomeController extends Controller
         $experiences = Experience::active()->ordered()->get();
         $projects = Project::active()->featured()->ordered()->take(6)->get();
         $certificates = Certificate::active()->ordered()->get();
-        $skills = Skill::active()->ordered()->get()->groupBy('category');
+        $allSkills = Skill::active()->ordered()->get();
+        $skills = $allSkills->groupBy('category');
         $contacts = Contact::active()->ordered()->get();
 
         return Inertia::render('Home', [
@@ -31,6 +32,7 @@ class HomeController extends Controller
             'projects'     => $projects,
             'certificates' => $certificates,
             'skills'       => $skills,
+            'allSkills'    => $allSkills,
             'contacts'     => $contacts,
         ]);
     }

@@ -28,13 +28,12 @@ class SkillController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $validated = $request->validate([
-            'name'        => 'required|string|max:100',
-            'category'    => 'required|string|max:100',
-            'proficiency' => 'required|integer|min:0|max:100',
-            'icon'        => 'nullable|string|max:100',
-            'color'       => 'nullable|string|max:20',
-            'order'       => 'integer|min:0',
-            'is_active'   => 'boolean',
+            'name'      => 'required|string|max:100',
+            'category'  => 'required|string|max:100',
+            'icon_name' => 'nullable|string|max:100',
+            'color'     => 'nullable|string|max:20',
+            'order'     => 'integer|min:0',
+            'is_active' => 'boolean',
         ]);
 
         Skill::create($validated);
@@ -52,13 +51,12 @@ class SkillController extends Controller
     public function update(Request $request, Skill $skill): RedirectResponse
     {
         $validated = $request->validate([
-            'name'        => 'required|string|max:100',
-            'category'    => 'required|string|max:100',
-            'proficiency' => 'required|integer|min:0|max:100',
-            'icon'        => 'nullable|string|max:100',
-            'color'       => 'nullable|string|max:20',
-            'order'       => 'integer|min:0',
-            'is_active'   => 'boolean',
+            'name'      => 'required|string|max:100',
+            'category'  => 'required|string|max:100',
+            'icon_name' => 'nullable|string|max:100',
+            'color'     => 'nullable|string|max:20',
+            'order'     => 'integer|min:0',
+            'is_active' => 'boolean',
         ]);
 
         $skill->update($validated);

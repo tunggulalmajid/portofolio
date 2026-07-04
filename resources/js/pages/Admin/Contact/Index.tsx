@@ -6,14 +6,12 @@ import { Plus, Edit, Trash2, Globe } from 'lucide-react';
 interface Props { contacts: PaginatedData<Contact>; }
 
 export default function ContactIndex({ contacts }: Props) {
-    const page = usePage(); const flash = (page.props as any).flash as FlashMessage | undefined;
     const handleDelete = (id: number) => {
         if (confirm('Delete this contact?')) router.delete(`/admin/contacts/${id}`);
     };
     return (
         <AdminLayout title="Manage Contacts">
             <div className="space-y-6">
-                {flash?.success && <div className="p-4 bg-green-400/10 border border-green-400/20 text-green-400 rounded-xl text-sm">{flash.success}</div>}
                 <div className="flex items-center justify-between">
                     <div><h2 className="text-xl font-bold text-white">Contacts</h2><p className="text-gray-400 text-sm mt-1">{contacts.total} total</p></div>
                     <Link href="/admin/contacts/create" className="inline-flex items-center gap-2 px-4 py-2 bg-green-400 hover:bg-green-300 text-[#1e2235] font-semibold rounded-xl text-sm">

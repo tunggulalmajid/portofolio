@@ -31,7 +31,12 @@ class ExperienceController extends Controller
         $validated = $request->validate([
             'company'          => 'required|string|max:255',
             'position'         => 'required|string|max:255',
-            'type'             => 'required|in:work,education',
+            'positions'        => 'nullable|array',
+            'positions.*.title' => 'required|string|max:255',
+            'positions.*.period' => 'required|string|max:100',
+            'positions.*.responsibilities' => 'nullable|array',
+            'positions.*.responsibilities.*' => 'string',
+            'type'             => 'required|in:work,education,organization',
             'location'         => 'nullable|string|max:255',
             'start_date'       => 'required|date',
             'end_date'         => 'nullable|date|after:start_date',
@@ -39,14 +44,9 @@ class ExperienceController extends Controller
             'description'      => 'required|string',
             'responsibilities' => 'nullable|array',
             'responsibilities.*' => 'string',
-            'company_logo'     => 'nullable|image|mimes:jpg,jpeg,png,webp,svg|max:1024',
             'order'            => 'integer|min:0',
             'is_active'        => 'boolean',
         ]);
-
-        if ($request->hasFile('company_logo')) {
-            $validated['company_logo'] = $request->file('company_logo')->store('experiences', 'public');
-        }
 
         if ($validated['is_current'] ?? false) {
             $validated['end_date'] = null;
@@ -69,7 +69,12 @@ class ExperienceController extends Controller
         $validated = $request->validate([
             'company'          => 'required|string|max:255',
             'position'         => 'required|string|max:255',
-            'type'             => 'required|in:work,education',
+            'positions'        => 'nullable|array',
+            'positions.*.title' => 'required|string|max:255',
+            'positions.*.period' => 'required|string|max:100',
+            'positions.*.responsibilities' => 'nullable|array',
+            'positions.*.responsibilities.*' => 'string',
+            'type'             => 'required|in:work,education,organization',
             'location'         => 'nullable|string|max:255',
             'start_date'       => 'required|date',
             'end_date'         => 'nullable|date|after:start_date',
@@ -77,17 +82,9 @@ class ExperienceController extends Controller
             'description'      => 'required|string',
             'responsibilities' => 'nullable|array',
             'responsibilities.*' => 'string',
-            'company_logo'     => 'nullable|image|mimes:jpg,jpeg,png,webp,svg|max:1024',
             'order'            => 'integer|min:0',
             'is_active'        => 'boolean',
         ]);
-
-        if ($request->hasFile('company_logo')) {
-            if ($experience->company_logo) {
-                Storage::disk('public')->delete($experience->company_logo);
-            }
-            $validated['company_logo'] = $request->file('company_logo')->store('experiences', 'public');
-        }
 
         if ($validated['is_current'] ?? false) {
             $validated['end_date'] = null;
@@ -100,10 +97,6 @@ class ExperienceController extends Controller
 
     public function destroy(Experience $experience): RedirectResponse
     {
-        if ($experience->company_logo) {
-            Storage::disk('public')->delete($experience->company_logo);
-        }
-
         $experience->delete();
 
         return redirect()->route('admin.experiences.index')->with('success', 'Experience deleted successfully.');

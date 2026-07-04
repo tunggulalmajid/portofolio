@@ -1,19 +1,25 @@
 import AdminLayout from '@/Layouts/AdminLayout';
 import { Link, router, usePage } from '@inertiajs/react';
 import { Certificate, PaginatedData, FlashMessage } from '@/types';
-import { Plus, Edit, Trash2, Award, ExternalLink } from 'lucide-react';
+import { Plus, Edit, Trash2, Award, ExternalLink, Eye, X } from 'lucide-react';
+import { useState } from 'react';
 
 interface Props { certificates: PaginatedData<Certificate>; }
 
 export default function CertificateIndex({ certificates }: Props) {
-    const page = usePage(); const flash = (page.props as any).flash as FlashMessage | undefined;
+    const [imagePreview, setImagePreview] = useState<string | null>(null);
+
     const handleDelete = (id: number) => {
         if (confirm('Delete this certificate?')) router.delete(`/admin/certificates/${id}`);
     };
+
+    const openImagePreview = (url: string) => {
+        setImagePreview(url);
+    };
+
     return (
         <AdminLayout title="Manage Certificates">
             <div className="space-y-6">
-                {flash?.success && <div className="p-4 bg-green-400/10 border border-green-400/20 text-green-400 rounded-xl text-sm">{flash.success}</div>}
                 <div className="flex items-center justify-between">
                     <div><h2 className="text-xl font-bold text-white">Certificates</h2><p className="text-gray-400 text-sm mt-1">{certificates.total} total</p></div>
                     <Link href="/admin/certificates/create" className="inline-flex items-center gap-2 px-4 py-2 bg-green-400 hover:bg-green-300 text-[#1e2235] font-semibold rounded-xl text-sm">
@@ -24,8 +30,17 @@ export default function CertificateIndex({ certificates }: Props) {
                     {certificates.data.map((cert) => (
                         <div key={cert.id} className="bg-[#1e2235] border border-white/5 rounded-xl p-5 space-y-3 hover:border-green-400/20 transition-colors">
                             <div className="flex items-start justify-between">
-                                <div className="w-10 h-10 bg-green-400/10 border border-green-400/20 rounded-lg flex items-center justify-center">
-                                    {cert.image_url ? <img src={cert.image_url} alt="" className="w-8 h-8 object-contain rounded" /> : <Award size={20} className="text-green-400" />}
+                                <div className="relative group w-16 h-16 bg-[#151929] border border-white/5 rounded-lg overflow-hidden flex items-center justify-center">
+                                    {cert.image_url ? (
+                                        <>
+                                            <img src={cert.image_url} alt="" className="w-full h-full object-contain" />
+                                            <button onClick={() => openImagePreview(cert.image_url!)} className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                                <Eye size={16} className="text-white" />
+                                            </button>
+                                        </>
+                                    ) : (
+                                        <Award size={20} className="text-green-400" />
+                                    )}
                                 </div>
                                 <span className={`px-2 py-0.5 text-xs rounded-full border ${cert.is_active ? 'bg-green-400/10 text-green-400 border-green-400/20' : 'bg-white/5 text-gray-500 border-white/10'}`}>
                                     {cert.is_active ? 'Active' : 'Inactive'}
@@ -47,6 +62,16 @@ export default function CertificateIndex({ certificates }: Props) {
                     ))}
                 </div>
             </div>
+
+            {/* Image Preview Modal */}
+            {imagePreview && (
+                <div className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center p-4" onClick={() => setImagePreview(null)}>
+                    <button onClick={() => setImagePreview(null)} className="absolute top-4 right-4 p-2 text-white hover:bg-white/10 rounded-lg transition-colors">
+                        <X size={24} />
+                    </button>
+                    <img src={imagePreview} alt="Certificate preview" className="max-h-[90vh] max-w-full object-contain" onClick={(e) => e.stopPropagation()} />
+                </div>
+            )}
         </AdminLayout>
     );
 }

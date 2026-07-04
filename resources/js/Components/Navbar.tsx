@@ -48,7 +48,7 @@ export default function Navbar() {
                 <div className="flex items-center justify-between h-16">
                     {/* Logo */}
                     <Link href="/" className="text-xl font-bold text-white hover:opacity-80 transition-opacity">
-                        tunggulmajid<span className="text-green-400">.</span>
+                        tunggulalmajid<span className="text-green-400">.</span>
                     </Link>
 
                     {/* Desktop Nav */}

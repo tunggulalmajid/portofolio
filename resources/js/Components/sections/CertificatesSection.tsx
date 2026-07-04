@@ -1,12 +1,20 @@
 import { Certificate } from '@/types';
-import { Award, ExternalLink, Calendar } from 'lucide-react';
+import { Award, ExternalLink, Calendar, X } from 'lucide-react';
+import { useState } from 'react';
+import { motion } from 'framer-motion';
 
 interface CertificatesSectionProps {
     certificates: Certificate[];
 }
 
 export default function CertificatesSection({ certificates }: CertificatesSectionProps) {
+    const [imagePreview, setImagePreview] = useState<string | null>(null);
+
     if (certificates.length === 0) return null;
+
+    const openImagePreview = (url: string) => {
+        setImagePreview(url);
+    };
 
     return (
         <section id="certificates" className="py-24 bg-[#151929] relative overflow-hidden">
@@ -21,19 +29,32 @@ export default function CertificatesSection({ certificates }: CertificatesSectio
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-                    {certificates.map((cert) => (
-                        <div
+                    {certificates.map((cert, index) => (
+                        <motion.div
                             key={cert.id}
-                            className="group bg-[#1e2235] border border-white/5 hover:border-green-400/20 rounded-2xl overflow-hidden transition-all hover:shadow-lg hover:-translate-y-1"
+                            initial={{ opacity: 0, scale: 0.9 }}
+                            whileInView={{ opacity: 1, scale: 1 }}
+                            viewport={{ once: true, margin: "-50px" }}
+                            transition={{ duration: 0.4, delay: index * 0.1 }}
+                            whileHover={{ y: -8 }}
+                            className="group bg-[#1e2235] border border-white/5 hover:border-green-400/20 rounded-2xl overflow-hidden transition-all hover:shadow-lg"
                         >
                             {/* Certificate image */}
-                            <div className="w-full h-40 bg-[#151929] overflow-hidden flex items-center justify-center">
+                            <div className="w-full h-40 bg-[#151929] overflow-hidden flex items-center justify-center relative group/img">
                                 {cert.image_url ? (
-                                    <img
-                                        src={cert.image_url}
-                                        alt={cert.title}
-                                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                                    />
+                                    <>
+                                        <img
+                                            src={cert.image_url}
+                                            alt={cert.title}
+                                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                                        />
+                                        <button
+                                            onClick={() => openImagePreview(cert.image_url!)}
+                                            className="absolute inset-0 bg-black/50 opacity-0 group-hover/img:opacity-100 transition-opacity flex items-center justify-center cursor-pointer"
+                                        >
+                                            <span className="text-white text-sm font-medium">Click to view</span>
+                                        </button>
+                                    </>
                                 ) : (
                                     <div className="flex flex-col items-center gap-2">
                                         <Award size={40} className="text-green-400/40" />
@@ -76,10 +97,20 @@ export default function CertificatesSection({ certificates }: CertificatesSectio
                                     </a>
                                 )}
                             </div>
-                        </div>
+                        </motion.div>
                     ))}
                 </div>
             </div>
+
+            {/* Image Preview Modal */}
+            {imagePreview && (
+                <div className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center p-4" onClick={() => setImagePreview(null)}>
+                    <button onClick={() => setImagePreview(null)} className="absolute top-4 right-4 p-2 text-white hover:bg-white/10 rounded-lg transition-colors">
+                        <X size={24} />
+                    </button>
+                    <img src={imagePreview} alt="Certificate preview" className="max-h-[90vh] max-w-full object-contain" onClick={(e) => e.stopPropagation()} />
+                </div>
+            )}
         </section>
     );
 }

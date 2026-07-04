@@ -38,19 +38,24 @@ export interface About {
     updated_at: string;
 }
 
+export interface Position {
+    title: string;
+    period: string;
+    responsibilities: string[];
+}
+
 export interface Experience {
     id: number;
     company: string;
     position: string;
-    type: 'work' | 'education';
+    positions: Position[] | null;
+    type: 'work' | 'education' | 'organization';
     location: string | null;
     start_date: string;
     end_date: string | null;
     is_current: boolean;
     description: string;
     responsibilities: string[] | null;
-    company_logo: string | null;
-    company_logo_url: string | null;
     duration: string;
     order: number;
     is_active: boolean;
@@ -70,6 +75,7 @@ export interface Project {
     images_url: string[];
     technologies: string[];
     category: string;
+    year: number | null;
     demo_link: string | null;
     repo_link: string | null;
     status: 'completed' | 'in_progress' | 'archived';
@@ -102,8 +108,7 @@ export interface Skill {
     id: number;
     name: string;
     category: string;
-    proficiency: number;
-    icon: string | null;
+    icon_name: string | null;
     color: string | null;
     order: number;
     is_active: boolean;

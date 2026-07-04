@@ -1,6 +1,7 @@
 import { Project } from '@/types';
 import { Link } from '@inertiajs/react';
-import { ExternalLink, ArrowRight, GitBranch } from 'lucide-react';
+import { ExternalLink, ArrowRight, GitBranch, Calendar } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 interface ProjectsSectionProps {
     projects: Project[];
@@ -29,10 +30,15 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-                    {displayed.map((project) => (
-                        <div
+                    {displayed.map((project, index) => (
+                        <motion.div
                             key={project.id}
-                            className="group bg-[#252a40] border border-white/5 hover:border-green-400/20 rounded-2xl overflow-hidden transition-all hover:shadow-xl hover:shadow-green-900/10 hover:-translate-y-1"
+                            initial={{ opacity: 0, y: 50 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true, margin: "-50px" }}
+                            transition={{ duration: 0.5, delay: index * 0.1 }}
+                            whileHover={{ y: -8 }}
+                            className="group bg-[#252a40] border border-white/5 hover:border-green-400/20 rounded-2xl overflow-hidden transition-all hover:shadow-xl hover:shadow-green-900/10"
                         >
                             {/* Thumbnail */}
                             <div className="aspect-video bg-[#1e2235] overflow-hidden relative">
@@ -54,6 +60,11 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
                                         {project.status.replace('_', ' ')}
                                     </span>
                                 )}
+                                {project.images_url && project.images_url.length > 0 && (
+                                    <span className="absolute bottom-3 left-3 px-2.5 py-1 text-xs font-medium bg-black/60 text-white rounded-full backdrop-blur-sm">
+                                        +{project.images_url.length} images
+                                    </span>
+                                )}
                             </div>
 
                             {/* Content */}
@@ -61,6 +72,15 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
                                 <h3 className="text-base font-bold text-white mb-2 group-hover:text-green-400 transition-colors">
                                     {project.title}
                                 </h3>
+                                
+                                {/* Year */}
+                                {project.year && (
+                                    <div className="flex items-center gap-1.5 text-xs text-gray-500 mb-2">
+                                        <Calendar size={12} />
+                                        <span>{project.year}</span>
+                                    </div>
+                                )}
+                                
                                 <p className="text-gray-400 text-sm leading-relaxed mb-4 line-clamp-2">
                                     {project.short_description}
                                 </p>
@@ -103,7 +123,7 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </motion.div>
                     ))}
                 </div>
 

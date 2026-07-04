@@ -3,6 +3,7 @@
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ContactMessageController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\HeroController;
 use App\Http\Controllers\Admin\AboutController;
@@ -11,12 +12,16 @@ use App\Http\Controllers\Admin\ProjectController as AdminProjectController;
 use App\Http\Controllers\Admin\CertificateController;
 use App\Http\Controllers\Admin\SkillController;
 use App\Http\Controllers\Admin\ContactController;
+use App\Http\Controllers\Admin\ContactMessageController as AdminContactMessageController;
 use Illuminate\Support\Facades\Route;
 
 // ─── Public Routes ────────────────────────────────────────────────────────────
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/projects', [ProjectController::class, 'index'])->name('projects.index');
 Route::get('/projects/{project:slug}', [ProjectController::class, 'show'])->name('projects.show');
+
+// Contact Form
+Route::post('/contact', [ContactMessageController::class, 'store'])->name('contact.store');
 
 // ─── Auth Routes (Breeze) ─────────────────────────────────────────────────────
 Route::middleware('auth')->group(function () {
@@ -54,6 +59,12 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified'])->group(
 
     // Contacts
     Route::resource('contacts', ContactController::class)->except(['show']);
+
+    // Contact Messages (inbox)
+    Route::get('/messages', [AdminContactMessageController::class, 'index'])->name('contact-messages.index');
+    Route::get('/messages/{contactMessage}', [AdminContactMessageController::class, 'show'])->name('contact-messages.show');
+    Route::post('/messages/{contactMessage}/mark-read', [AdminContactMessageController::class, 'markAsRead'])->name('contact-messages.mark-read');
+    Route::delete('/messages/{contactMessage}', [AdminContactMessageController::class, 'destroy'])->name('contact-messages.destroy');
 });
 
 require __DIR__.'/auth.php';

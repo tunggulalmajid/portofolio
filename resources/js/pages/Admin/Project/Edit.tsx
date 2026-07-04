@@ -2,6 +2,8 @@ import AdminLayout from '@/Layouts/AdminLayout';
 import { Link, useForm } from '@inertiajs/react';
 import { Project } from '@/types';
 import { ArrowLeft, Save, Plus, Trash2 } from 'lucide-react';
+import { useEffect } from 'react';
+import { toast } from 'react-hot-toast';
 
 interface Props { project?: Project; }
 
@@ -9,6 +11,11 @@ const inputClass = "w-full px-4 py-2.5 bg-[#151929] border border-white/10 focus
 const cardClass = "bg-[#1e2235] border border-white/5 rounded-2xl p-6 space-y-4";
 
 function ProjectForm({ onSubmit, processing, data, setData, errors }: any) {
+    const removeExistingImage = (imgPath: string) => {
+        setData('images_to_delete', [...(data.images_to_delete ?? []), imgPath]);
+        setData('existing_images', (data.existing_images ?? []).filter((img: string) => img !== imgPath));
+    };
+
     const addTech = () => setData('technologies', [...(data.technologies ?? []), '']);
     const updateTech = (i: number, val: string) => {
         const arr = [...(data.technologies ?? [])]; arr[i] = val; setData('technologies', arr);
@@ -27,7 +34,15 @@ function ProjectForm({ onSubmit, processing, data, setData, errors }: any) {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                         <label className="block text-sm font-medium text-gray-400 mb-1.5">Category *</label>
-                        <input type="text" value={data.category} onChange={(e: any) => setData('category', e.target.value)} placeholder="e.g. Web Application" className={inputClass} />
+                        <select value={data.category} onChange={(e: any) => setData('category', e.target.value)} className={inputClass}>
+                            <option value="">Select Category</option>
+                            <option value="Web Application">Web Application</option>
+                            <option value="Mobile Application">Mobile Application</option>
+                            <option value="E-Commerce">E-Commerce</option>
+                            <option value="Company Profile">Company Profile</option>
+                            <option value="API">API</option>
+                            <option value="Organization">Organization</option>
+                        </select>
                         {errors.category && <p className="text-red-400 text-xs mt-1">{errors.category}</p>}
                     </div>
                     <div>
@@ -39,6 +54,11 @@ function ProjectForm({ onSubmit, processing, data, setData, errors }: any) {
                         </select>
                         {errors.status && <p className="text-red-400 text-xs mt-1">{errors.status}</p>}
                     </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-400 mb-1.5">Year</label>
+                                <input type="number" value={data.year ?? ''} onChange={(e: any) => setData('year', e.target.value ? Number(e.target.value) : null)} placeholder="e.g. 2024" min="2000" max="2100" className={inputClass} />
+                                {errors.year && <p className="text-red-400 text-xs mt-1">{errors.year}</p>}
+                            </div>
                     <div>
                         <label className="block text-sm font-medium text-gray-400 mb-1.5">Demo Link</label>
                         <input type="url" value={data.demo_link} onChange={(e: any) => setData('demo_link', e.target.value)} className={inputClass} />
@@ -66,9 +86,72 @@ function ProjectForm({ onSubmit, processing, data, setData, errors }: any) {
 
             <div className={cardClass}>
                 <h3 className="text-white font-semibold border-b border-white/5 pb-3">Thumbnail</h3>
-                <input type="file" accept="image/*" onChange={(e: any) => setData('thumbnail', e.target.files?.[0] ?? null)}
-                    className="w-full text-sm text-gray-400 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-green-400/10 file:text-green-400 hover:file:bg-green-400/20 file:text-sm file:cursor-pointer" />
-                {errors.thumbnail && <p className="text-red-400 text-xs mt-1">{errors.thumbnail}</p>}
+                
+                {/* Show existing thumbnail if editing */}
+                {data.existing_thumbnail && !data.thumbnail && (
+                    <div className="mb-3">
+                        <label className="block text-sm font-medium text-gray-400 mb-2">Current Thumbnail</label>
+                        <div className="relative aspect-video w-48 bg-[#151929] rounded-lg overflow-hidden border border-white/5">
+                            <img src={`/storage/${data.existing_thumbnail}`} alt="Current thumbnail" className="w-full h-full object-cover" />
+                        </div>
+                    </div>
+                )}
+                
+                <div>
+                    <label className="block text-sm font-medium text-gray-400 mb-2">{data.existing_thumbnail ? 'Change Thumbnail' : 'Upload Thumbnail'}</label>
+                    <input type="file" accept="image/*" onChange={(e: any) => setData('thumbnail', e.target.files?.[0] ?? null)}
+                        className="w-full text-sm text-gray-400 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-green-400/10 file:text-green-400 hover:file:bg-green-400/20 file:text-sm file:cursor-pointer" />
+                    {data.thumbnail && (
+                        <p className="text-green-400 text-xs mt-2">New thumbnail selected: {data.thumbnail.name}</p>
+                    )}
+                    {errors.thumbnail && <p className="text-red-400 text-xs mt-1">{errors.thumbnail}</p>}
+                </div>
+            </div>
+
+            <div className={cardClass}>
+                <h3 className="text-white font-semibold border-b border-white/5 pb-3">Project Images (Gallery)</h3>
+                
+                {/* Existing Images */}
+                {data.existing_images && data.existing_images.length > 0 && (
+                    <div className="mb-4">
+                        <label className="block text-sm font-medium text-gray-400 mb-2">Current Images</label>
+                        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                            {data.existing_images.map((img: string, i: number) => (
+                                <div key={i} className="relative group aspect-video bg-[#151929] rounded-lg overflow-hidden">
+                                    <img src={`/storage/${img}`} alt={`Gallery ${i+1}`} className="w-full h-full object-cover" />
+                                    <button type="button" onClick={() => removeExistingImage(img)} 
+                                        className="absolute top-2 right-2 p-1.5 bg-red-500 hover:bg-red-600 text-white rounded-lg opacity-0 group-hover:opacity-100 transition-opacity">
+                                        <Trash2 size={14} />
+                                    </button>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                )}
+
+                {/* Upload New Images */}
+                <div>
+                    <label className="block text-sm font-medium text-gray-400 mb-2">Upload New Images</label>
+                    <input type="file" accept="image/*" multiple onChange={(e: any) => setData('images', e.target.files ? Array.from(e.target.files) : [])}
+                        className="w-full text-sm text-gray-400 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-green-400/10 file:text-green-400 hover:file:bg-green-400/20 file:text-sm file:cursor-pointer" />
+                    <p className="text-gray-500 text-xs mt-2">Select multiple images at once for project gallery (max 6 images total recommended)</p>
+                    {errors.images && <p className="text-red-400 text-xs mt-1">{errors.images}</p>}
+                    
+                    {/* Preview New Images */}
+                    {data.images && data.images.length > 0 && (
+                        <div className="mt-3">
+                            <p className="text-sm text-gray-400 mb-2">{data.images.length} new image(s) selected</p>
+                            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                                {Array.from(data.images).map((file: any, i: number) => (
+                                    <div key={i} className="relative aspect-video bg-[#151929] rounded-lg overflow-hidden border border-green-400/20">
+                                        <img src={URL.createObjectURL(file)} alt={`New ${i+1}`} className="w-full h-full object-cover" />
+                                        <span className="absolute top-2 left-2 px-2 py-0.5 bg-green-400/90 text-[#151929] text-xs rounded font-medium">New</span>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+                </div>
             </div>
 
             <div className={cardClass}>
@@ -110,7 +193,15 @@ function ProjectForm({ onSubmit, processing, data, setData, errors }: any) {
 }
 
 export function ProjectCreate() {
-    const form = useForm({ title: '', short_description: '', full_description: '', category: '', technologies: [] as string[], thumbnail: null as File | null, demo_link: '', repo_link: '', status: 'completed', is_featured: false, order: 0, is_active: true });
+    const form = useForm({ title: '', short_description: '', full_description: '', category: '', year: null as number | null, technologies: [] as string[], thumbnail: null as File | null, images: [] as File[], demo_link: '', repo_link: '', status: 'completed', is_featured: false, order: 0, is_active: true });
+    
+    useEffect(() => {
+        if (Object.keys(form.errors).length > 0) {
+            const firstError = Object.values(form.errors)[0];
+            toast.error(firstError || 'Please check the form for errors');
+        }
+    }, [form.errors]);
+    
     const handleSubmit = (e: React.FormEvent) => { e.preventDefault(); form.post('/admin/projects', { forceFormData: true }); };
     return (
         <AdminLayout title="Add Project">
@@ -126,8 +217,16 @@ export function ProjectCreate() {
 }
 
 export default function ProjectEdit({ project }: Props) {
-    const form = useForm({ title: project?.title ?? '', short_description: project?.short_description ?? '', full_description: project?.full_description ?? '', category: project?.category ?? '', technologies: project?.technologies ?? [], thumbnail: null as File | null, demo_link: project?.demo_link ?? '', repo_link: project?.repo_link ?? '', status: project?.status ?? 'completed', is_featured: project?.is_featured ?? false, order: project?.order ?? 0, is_active: project?.is_active ?? true, _method: 'PUT' });
-    const handleSubmit = (e: React.FormEvent) => { e.preventDefault(); form.post(`/admin/projects/${project?.id}`, { forceFormData: true }); };
+    const form = useForm({ title: project?.title ?? '', short_description: project?.short_description ?? '', full_description: project?.full_description ?? '', category: project?.category ?? '', year: project?.year ?? null, technologies: project?.technologies ?? [], thumbnail: null as File | null, existing_thumbnail: project?.thumbnail ?? null, images: [] as File[], existing_images: project?.images ?? [], images_to_delete: [] as string[], demo_link: project?.demo_link ?? '', repo_link: project?.repo_link ?? '', status: project?.status ?? 'completed', is_featured: project?.is_featured ?? false, order: project?.order ?? 0, is_active: project?.is_active ?? true, _method: 'PUT' });
+    
+    useEffect(() => {
+        if (Object.keys(form.errors).length > 0) {
+            const firstError = Object.values(form.errors)[0];
+            toast.error(firstError || 'Please check the form for errors');
+        }
+    }, [form.errors]);
+    
+    const handleSubmit = (e: React.FormEvent) => { e.preventDefault(); form.post(`/admin/projects/${project?.slug}`, { forceFormData: true }); };
     return (
         <AdminLayout title="Edit Project">
             <div className="max-w-3xl space-y-6">

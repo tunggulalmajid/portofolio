@@ -15,11 +15,7 @@ export default function HeroEdit({ hero }: HeroEditProps) {
         name:               hero?.name ?? '',
         tagline:            hero?.tagline ?? '',
         description:        hero?.description ?? '',
-        profile_image:      null as File | null,
-        cv_file:            null as File | null,
-        cta_primary_text:   hero?.cta_primary_text ?? 'View My Work',
-        cta_primary_link:   hero?.cta_primary_link ?? '#projects',
-        cta_secondary_text: hero?.cta_secondary_text ?? 'Download CV',
+        cta_primary_link:   hero?.cta_primary_link ?? '',
         cta_secondary_link: hero?.cta_secondary_link ?? '',
         is_active:          hero?.is_active ?? true,
         _method:            'PUT',
@@ -27,7 +23,7 @@ export default function HeroEdit({ hero }: HeroEditProps) {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        post('/admin/hero', { forceFormData: true });
+        post('/admin/hero');
     };
 
     return (
@@ -65,42 +61,20 @@ export default function HeroEdit({ hero }: HeroEditProps) {
                         </div>
                     </div>
 
-                    <div className={cardClass}>
-                        <h3 className="text-white font-semibold border-b border-white/5 pb-3">Media</h3>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <div>
-                                <label className="block text-sm font-medium text-gray-400 mb-1.5">Profile Image</label>
-                                <input type="file" accept="image/*" onChange={e => setData('profile_image', e.target.files?.[0] ?? null)}
-                                    className="w-full text-sm text-gray-400 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-green-400/10 file:text-green-400 hover:file:bg-green-400/20 file:text-sm file:cursor-pointer" />
-                                {errors.profile_image && <p className="text-red-400 text-xs mt-1">{errors.profile_image}</p>}
-                            </div>
-                            <div>
-                                <label className="block text-sm font-medium text-gray-400 mb-1.5">CV File (PDF)</label>
-                                <input type="file" accept=".pdf" onChange={e => setData('cv_file', e.target.files?.[0] ?? null)}
-                                    className="w-full text-sm text-gray-400 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-green-400/10 file:text-green-400 hover:file:bg-green-400/20 file:text-sm file:cursor-pointer" />
-                                {errors.cv_file && <p className="text-red-400 text-xs mt-1">{errors.cv_file}</p>}
-                            </div>
-                        </div>
-                    </div>
+
 
                     <div className={cardClass}>
-                        <h3 className="text-white font-semibold border-b border-white/5 pb-3">CTA Buttons</h3>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <h3 className="text-white font-semibold border-b border-white/5 pb-3">Buttons</h3>
+                        <div className="space-y-4">
                             <div>
-                                <label className="block text-sm font-medium text-gray-400 mb-1.5">Primary Button Text</label>
-                                <input type="text" value={data.cta_primary_text} onChange={e => setData('cta_primary_text', e.target.value)} className={inputClass} />
+                                <label className="block text-sm font-medium text-gray-400 mb-1.5">Download CV Button Link (Google Drive URL)</label>
+                                <input type="text" value={data.cta_primary_link} onChange={e => setData('cta_primary_link', e.target.value)} placeholder="https://drive.google.com/..." className={inputClass} />
+                                {errors.cta_primary_link && <p className="text-red-400 text-xs mt-1">{errors.cta_primary_link}</p>}
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-gray-400 mb-1.5">Primary Button Link</label>
-                                <input type="text" value={data.cta_primary_link} onChange={e => setData('cta_primary_link', e.target.value)} className={inputClass} />
-                            </div>
-                            <div>
-                                <label className="block text-sm font-medium text-gray-400 mb-1.5">Secondary Button Text</label>
-                                <input type="text" value={data.cta_secondary_text} onChange={e => setData('cta_secondary_text', e.target.value)} className={inputClass} />
-                            </div>
-                            <div>
-                                <label className="block text-sm font-medium text-gray-400 mb-1.5">Secondary Button Link</label>
-                                <input type="text" value={data.cta_secondary_link} onChange={e => setData('cta_secondary_link', e.target.value)} className={inputClass} />
+                                <label className="block text-sm font-medium text-gray-400 mb-1.5">Projects Button Link</label>
+                                <input type="text" value={data.cta_secondary_link} onChange={e => setData('cta_secondary_link', e.target.value)} placeholder="#projects or https://..." className={inputClass} />
+                                {errors.cta_secondary_link && <p className="text-red-400 text-xs mt-1">{errors.cta_secondary_link}</p>}
                             </div>
                         </div>
                     </div>

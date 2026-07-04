@@ -1,13 +1,11 @@
 import AdminLayout from '@/Layouts/AdminLayout';
 import { Link, router, usePage } from '@inertiajs/react';
 import { Experience, PaginatedData, FlashMessage } from '@/types';
-import { Plus, Edit, Trash2, Briefcase, GraduationCap } from 'lucide-react';
+import { Plus, Edit, Trash2, Briefcase, GraduationCap, Users } from 'lucide-react';
 
 interface ExperienceIndexProps { experiences: PaginatedData<Experience>; }
 
 export default function ExperienceIndex({ experiences }: ExperienceIndexProps) {
-    const page = usePage(); const flash = (page.props as any).flash as FlashMessage | undefined;
-
     const handleDelete = (id: number) => {
         if (confirm('Are you sure you want to delete this experience?')) {
             router.delete(`/admin/experiences/${id}`);
@@ -17,7 +15,6 @@ export default function ExperienceIndex({ experiences }: ExperienceIndexProps) {
     return (
         <AdminLayout title="Manage Experience">
             <div className="space-y-6">
-                {flash?.success && <div className="p-4 bg-green-400/10 border border-green-400/20 text-green-400 rounded-xl text-sm">{flash.success}</div>}
                 <div className="flex items-center justify-between">
                     <div><h2 className="text-xl font-bold text-white">Experiences</h2><p className="text-gray-400 text-sm mt-1">{experiences.total} total records</p></div>
                     <Link href="/admin/experiences/create" className="inline-flex items-center gap-2 px-4 py-2 bg-green-400 hover:bg-green-300 text-[#1e2235] font-semibold rounded-xl text-sm">
@@ -40,7 +37,7 @@ export default function ExperienceIndex({ experiences }: ExperienceIndexProps) {
                                         <td className="px-6 py-4">
                                             <div className="flex items-center gap-3">
                                                 <div className="w-8 h-8 bg-green-400/10 border border-green-400/20 rounded-lg flex items-center justify-center shrink-0">
-                                                    {exp.type === 'education' ? <GraduationCap size={14} className="text-green-400" /> : <Briefcase size={14} className="text-green-400" />}
+                                                    {exp.type === 'education' ? <GraduationCap size={14} className="text-green-400" /> : exp.type === 'organization' ? <Users size={14} className="text-green-400" /> : <Briefcase size={14} className="text-green-400" />}
                                                 </div>
                                                 <div>
                                                     <p className="text-white text-sm font-medium">{exp.position}</p>

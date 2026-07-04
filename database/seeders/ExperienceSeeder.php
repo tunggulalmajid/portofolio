@@ -24,7 +24,6 @@ class ExperienceSeeder extends Seeder
                 'Optimizing database queries and application performance',
                 'Conducting code reviews and maintaining code quality',
             ],
-            'company_logo'     => null,
             'order'            => 1,
             'is_active'        => true,
         ]);
@@ -44,7 +43,6 @@ class ExperienceSeeder extends Seeder
                 'Integrated third-party APIs (payment, maps, notifications)',
                 'Managed project timelines and client communication',
             ],
-            'company_logo'     => null,
             'order'            => 2,
             'is_active'        => true,
         ]);
@@ -64,7 +62,6 @@ class ExperienceSeeder extends Seeder
                 'Basis Data & Sistem Informasi',
                 'Jaringan Komputer',
             ],
-            'company_logo'     => null,
             'order'            => 3,
             'is_active'        => true,
         ]);

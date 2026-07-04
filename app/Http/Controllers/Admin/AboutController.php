@@ -36,7 +36,6 @@ class AboutController extends Controller
             'title'            => 'required|string|max:255',
             'description'      => 'required|string',
             'short_bio'        => 'required|string|max:500',
-            'profile_image'    => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
             'location'         => 'nullable|string|max:255',
             'email'            => 'nullable|email|max:255',
             'phone'            => 'nullable|string|max:50',
@@ -46,14 +45,6 @@ class AboutController extends Controller
         ]);
 
         $about = About::firstOrNew();
-
-        if ($request->hasFile('profile_image')) {
-            if ($about->profile_image) {
-                Storage::disk('public')->delete($about->profile_image);
-            }
-            $validated['profile_image'] = $request->file('profile_image')->store('about', 'public');
-        }
-
         $about->fill($validated)->save();
 
         return redirect()->route('admin.about.index')->with('success', 'About updated successfully.');

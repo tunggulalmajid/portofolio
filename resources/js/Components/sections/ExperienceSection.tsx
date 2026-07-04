@@ -1,8 +1,16 @@
 import { Experience } from '@/types';
 import { Briefcase, MapPin, Calendar } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 interface ExperienceSectionProps {
     experiences: Experience[];
+}
+
+// Helper untuk format date (YYYY-MM-DD) ke MMM YYYY
+function formatMonthYear(dateStr: string | null | undefined): string {
+    if (!dateStr) return '';
+    const date = new Date(dateStr);
+    return date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
 }
 
 export default function ExperienceSection({ experiences }: ExperienceSectionProps) {
@@ -30,15 +38,31 @@ export default function ExperienceSection({ experiences }: ExperienceSectionProp
                                 <p className="text-center text-gray-500 py-12">No experience entries yet.</p>
                             )}
 
-                            {sorted.map((exp) => (
-                                <div key={exp.id} className="relative flex gap-8 pl-16">
+                            {sorted.map((exp, index) => (
+                                <motion.div 
+                                    key={exp.id} 
+                                    initial={{ opacity: 0, x: -50 }}
+                                    whileInView={{ opacity: 1, x: 0 }}
+                                    viewport={{ once: true, margin: "-50px" }}
+                                    transition={{ duration: 0.5, delay: index * 0.15 }}
+                                    className="relative flex gap-8 pl-16"
+                                >
                                     {/* Dot */}
-                                    <div className="absolute left-0 top-5 w-10 h-10 bg-[#252a40] border-2 border-green-400/40 rounded-full flex items-center justify-center shadow-lg shadow-green-900/20">
+                                    <motion.div 
+                                        initial={{ scale: 0 }}
+                                        whileInView={{ scale: 1 }}
+                                        viewport={{ once: true }}
+                                        transition={{ duration: 0.3, delay: index * 0.15 + 0.2 }}
+                                        className="absolute left-0 top-5 w-10 h-10 bg-[#252a40] border-2 border-green-400/40 rounded-full flex items-center justify-center shadow-lg shadow-green-900/20"
+                                    >
                                         <Briefcase size={16} className="text-green-400" />
-                                    </div>
+                                    </motion.div>
 
                                     {/* Card */}
-                                    <div className="flex-1 bg-[#252a40] border border-white/5 hover:border-green-400/20 rounded-2xl p-6 transition-all">
+                                    <motion.div 
+                                        whileHover={{ x: 10, borderColor: 'rgba(74, 222, 128, 0.3)' }}
+                                        className="flex-1 bg-[#252a40] border border-white/5 hover:border-green-400/20 rounded-2xl p-6 transition-all"
+                                    >
                                         <div className="flex flex-wrap items-start justify-between gap-2 mb-3">
                                             <div>
                                                 <h3 className="text-white font-semibold text-lg">{exp.position}</h3>
@@ -52,7 +76,7 @@ export default function ExperienceSection({ experiences }: ExperienceSectionProp
                                         <div className="flex flex-wrap gap-4 mb-4 text-xs text-gray-500">
                                             <span className="flex items-center gap-1.5">
                                                 <Calendar size={12} className="text-green-400/60" />
-                                                {exp.start_date} – {exp.end_date ?? 'Present'}
+                                                {exp.duration || `${formatMonthYear(exp.start_date)} – ${exp.end_date ? formatMonthYear(exp.end_date) : 'Present'}`}
                                             </span>
                                             {exp.location && (
                                                 <span className="flex items-center gap-1.5">
@@ -66,6 +90,31 @@ export default function ExperienceSection({ experiences }: ExperienceSectionProp
                                             <p className="text-gray-400 text-sm mb-4">{exp.description}</p>
                                         )}
 
+                                        {/* Position History */}
+                                        {exp.positions && exp.positions.length > 0 && (
+                                            <div className="space-y-3 mb-4">
+                                                {exp.positions.map((pos, i) => (
+                                                    <div key={i} className="border-l-2 border-green-400/30 pl-3">
+                                                        <div className="flex items-center gap-2 mb-1">
+                                                            <h4 className="text-white text-sm font-medium">{pos.title}</h4>
+                                                            <span className="text-xs text-gray-500">({pos.period})</span>
+                                                        </div>
+                                                        {pos.responsibilities && pos.responsibilities.length > 0 && (
+                                                            <ul className="space-y-1">
+                                                                {pos.responsibilities.map((resp, j) => (
+                                                                    <li key={j} className="flex items-start gap-2 text-sm text-gray-400">
+                                                                        <span className="mt-2 w-1 h-1 bg-green-400 rounded-full flex-shrink-0" />
+                                                                        {resp}
+                                                                    </li>
+                                                                ))}
+                                                            </ul>
+                                                        )}
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        )}
+
+                                        {/* General Responsibilities */}
                                         {exp.responsibilities && exp.responsibilities.length > 0 && (
                                             <ul className="space-y-1.5">
                                                 {exp.responsibilities.map((resp, i) => (
@@ -76,8 +125,8 @@ export default function ExperienceSection({ experiences }: ExperienceSectionProp
                                                 ))}
                                             </ul>
                                         )}
-                                    </div>
-                                </div>
+                                    </motion.div>
+                                </motion.div>
                             ))}
                         </div>
                     </div>

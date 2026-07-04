@@ -27,6 +27,8 @@ class Certificate extends Model
         'order'       => 'integer',
     ];
 
+    protected $appends = ['image_url'];
+
     public function getImageUrlAttribute(): ?string
     {
         return $this->image ? asset('storage/' . $this->image) : null;

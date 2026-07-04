@@ -35,7 +35,7 @@ class CertificateController extends Controller
             'expiry_date'    => 'nullable|date|after:issue_date',
             'credential_id'  => 'nullable|string|max:255',
             'credential_url' => 'nullable|url|max:255',
-            'image'          => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'image'          => 'nullable|image|mimes:jpg,jpeg,png,webp|max:3072',
             'category'       => 'nullable|string|max:100',
             'order'          => 'integer|min:0',
             'is_active'      => 'boolean',
@@ -66,7 +66,7 @@ class CertificateController extends Controller
             'expiry_date'    => 'nullable|date|after:issue_date',
             'credential_id'  => 'nullable|string|max:255',
             'credential_url' => 'nullable|url|max:255',
-            'image'          => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'image'          => 'nullable|image|mimes:jpg,jpeg,png,webp|max:3072',
             'category'       => 'nullable|string|max:100',
             'order'          => 'integer|min:0',
             'is_active'      => 'boolean',
@@ -77,6 +77,9 @@ class CertificateController extends Controller
                 Storage::disk('public')->delete($certificate->image);
             }
             $validated['image'] = $request->file('image')->store('certificates', 'public');
+        } else {
+            // Keep existing image if no new file uploaded
+            unset($validated['image']);
         }
 
         $certificate->update($validated);
