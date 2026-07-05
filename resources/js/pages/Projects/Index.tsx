@@ -1,10 +1,10 @@
-import { Head, Link, router } from '@inertiajs/react';
-import { useState } from 'react';
-import { Project, PaginatedData } from '@/types';
-import Navbar from '@/Components/Navbar';
-import Footer from '@/Components/Footer';
-import { Search, ExternalLink, ArrowRight, GitBranch } from 'lucide-react';
+import { Head, Link, router, usePage } from '@inertiajs/react';
 import { motion } from 'framer-motion';
+import { Search, ExternalLink, ArrowRight, GitBranch } from 'lucide-react';
+import { useState } from 'react';
+import Footer from '@/Components/Footer';
+import Navbar from '@/Components/Navbar';
+import type { Project, PaginatedData } from '@/types';
 
 interface ProjectsIndexProps {
     projects: PaginatedData<Project>;
@@ -20,6 +20,9 @@ const statusColors: Record<string, string> = {
 
 export default function ProjectsIndex({ projects, categories, filters }: ProjectsIndexProps) {
     const [search, setSearch] = useState(filters.search ?? '');
+    const { props } = usePage();
+    const appUrl = (props.appUrl as string) || 'https://tunggulalmajid.com';
+    const canonicalUrl = `${appUrl}/projects`;
 
     const handleSearch = (e: React.FormEvent) => {
         e.preventDefault();
@@ -32,7 +35,28 @@ export default function ProjectsIndex({ projects, categories, filters }: Project
 
     return (
         <>
-            <Head title="Projects - Tunggul Abdul Majid" />
+            <Head>
+                <title>Projects - Tunggul Abdul Majid | Web Portfolio</title>
+                <meta name="description" content="Browse projects and web applications developed by Tunggul Abdul Majid, student of UNEJ (Universitas Jember)." />
+                <meta name="keywords" content="projects, portfolio, tunggul, tunggul abdul, tunggul abdul majid, tunggul unej, web development projects, laravel, react" />
+                <meta name="author" content="Tunggul Abdul Majid" />
+                <meta name="robots" content="index, follow" />
+                <link rel="canonical" href={canonicalUrl} />
+
+                {/* Open Graph */}
+                <meta property="og:type" content="website" />
+                <meta property="og:url" content={canonicalUrl} />
+                <meta property="og:title" content="Projects - Tunggul Abdul Majid" />
+                <meta property="og:description" content="Browse projects and web applications developed by Tunggul Abdul Majid, student of UNEJ." />
+                <meta property="og:image" content={`${appUrl}/images/og-image.png`} />
+
+                {/* Twitter */}
+                <meta name="twitter:card" content="summary_large_image" />
+                <meta name="twitter:url" content={canonicalUrl} />
+                <meta name="twitter:title" content="Projects - Tunggul Abdul Majid" />
+                <meta name="twitter:description" content="Browse projects and web applications developed by Tunggul Abdul Majid, student of UNEJ." />
+                <meta name="twitter:image" content={`${appUrl}/images/og-image.png`} />
+            </Head>
             <div className="min-h-screen bg-[#1e2235] text-white">
                 <Navbar />
 

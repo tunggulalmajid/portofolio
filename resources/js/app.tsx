@@ -13,9 +13,11 @@ createInertiaApp({
     resolve: async (name) => {
         const filePath = `./pages/${name}.tsx`;
         const page = pages[filePath];
+
         if (!page) {
             throw new Error(`Page not found: ${name} (looked for ${filePath})`);
         }
+
         return page();
     },
     setup({ el, App, props }) {

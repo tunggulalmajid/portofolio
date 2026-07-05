@@ -1,8 +1,9 @@
-import InputError from '@/Components/InputError';
-import AuthLayout from '@/Layouts/AuthLayout';
 import { Head, Link, useForm } from '@inertiajs/react';
 import { Eye, EyeOff, Lock, Mail } from 'lucide-react';
-import { FormEventHandler, useState } from 'react';
+import type { FormEventHandler} from 'react';
+import { useState } from 'react';
+import InputError from '@/Components/InputError';
+import AuthLayout from '@/Layouts/AuthLayout';
 
 export default function Login({
     status,

@@ -1,9 +1,9 @@
-import AdminLayout from '@/Layouts/AdminLayout';
 import { Link, useForm } from '@inertiajs/react';
-import { Certificate } from '@/types';
 import { ArrowLeft, Save, Eye } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { toast } from 'react-hot-toast';
+import AdminLayout from '@/Layouts/AdminLayout';
+import type { Certificate } from '@/types';
 
 interface Props { certificate?: Certificate; }
 
@@ -114,7 +114,10 @@ export function CertificateCreate() {
         }
     }, [form.errors]);
     
-    const handleSubmit = (e: React.FormEvent) => { e.preventDefault(); form.post('/admin/certificates', { forceFormData: true }); };
+    const handleSubmit = (e: React.FormEvent) => {
+ e.preventDefault(); form.post('/admin/certificates', { forceFormData: true }); 
+};
+
     return (
         <AdminLayout title="Add Certificate">
             <div className="max-w-3xl space-y-6">
@@ -138,7 +141,10 @@ export default function CertificateEdit({ certificate }: Props) {
         }
     }, [form.errors]);
     
-    const handleSubmit = (e: React.FormEvent) => { e.preventDefault(); form.post(`/admin/certificates/${certificate?.id}`, { forceFormData: true }); };
+    const handleSubmit = (e: React.FormEvent) => {
+ e.preventDefault(); form.post(`/admin/certificates/${certificate?.id}`, { forceFormData: true }); 
+};
+
     return (
         <AdminLayout title="Edit Certificate">
             <div className="max-w-3xl space-y-6">

@@ -1,10 +1,10 @@
-import { Head, Link } from '@inertiajs/react';
-import { Project } from '@/types';
-import Navbar from '@/Components/Navbar';
-import Footer from '@/Components/Footer';
-import { ExternalLink, ArrowLeft, ArrowRight, Calendar, Tag, GitBranch, X, ChevronLeft, ChevronRight } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import { Head, Link, usePage } from '@inertiajs/react';
 import { motion } from 'framer-motion';
+import { ExternalLink, ArrowLeft, ArrowRight, Calendar, Tag, GitBranch, X, ChevronLeft, ChevronRight } from 'lucide-react';
+import { useState, useEffect, useCallback } from 'react';
+import Footer from '@/Components/Footer';
+import Navbar from '@/Components/Navbar';
+import type { Project } from '@/types';
 
 interface ProjectShowProps {
     project: Project;
@@ -20,6 +20,9 @@ const statusColors: Record<string, string> = {
 export default function ProjectShow({ project, related }: ProjectShowProps) {
     const [lightboxOpen, setLightboxOpen] = useState(false);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
+    const { props } = usePage();
+    const appUrl = (props.appUrl as string) || 'https://tunggulalmajid.com';
+    const canonicalUrl = `${appUrl}/projects/${project.slug}`;
 
     const openLightbox = (index: number) => {
         setCurrentImageIndex(index);
@@ -28,35 +31,87 @@ export default function ProjectShow({ project, related }: ProjectShowProps) {
 
     const closeLightbox = () => setLightboxOpen(false);
 
-    const nextImage = () => {
+    const nextImage = useCallback(() => {
         if (project.images_url) {
             setCurrentImageIndex((prev) => (prev + 1) % project.images_url.length);
         }
-    };
+    }, [project.images_url]);
 
-    const prevImage = () => {
+    const prevImage = useCallback(() => {
         if (project.images_url) {
             setCurrentImageIndex((prev) => (prev - 1 + project.images_url.length) % project.images_url.length);
         }
-    };
+    }, [project.images_url]);
 
     // Keyboard navigation
     useEffect(() => {
-        if (!lightboxOpen) return;
+        if (!lightboxOpen) {
+            return;
+        }
 
         const handleKeyDown = (e: KeyboardEvent) => {
-            if (e.key === 'Escape') closeLightbox();
-            if (e.key === 'ArrowRight') nextImage();
-            if (e.key === 'ArrowLeft') prevImage();
+            if (e.key === 'Escape') {
+                closeLightbox();
+            }
+
+            if (e.key === 'ArrowRight') {
+                nextImage();
+            }
+
+            if (e.key === 'ArrowLeft') {
+                prevImage();
+            }
         };
 
         window.addEventListener('keydown', handleKeyDown);
+
         return () => window.removeEventListener('keydown', handleKeyDown);
-    }, [lightboxOpen, currentImageIndex]);
+    }, [lightboxOpen, nextImage, prevImage]);
 
     return (
         <>
-            <Head title={`${project.title} - Tunggul Abdul Majid`} />
+            <Head>
+                <title>{`${project.title} - Project by Tunggul Abdul Majid`}</title>
+                <meta name="description" content={project.short_description || `Detail project ${project.title} oleh Tunggul Abdul Majid.`} />
+                <meta name="keywords" content={`project, ${project.title}, ${project.category}, tunggul, tunggul abdul, tunggul abdul majid, tunggul unej, ${project.technologies.join(', ')}`} />
+                <meta name="author" content="Tunggul Abdul Majid" />
+                <meta name="robots" content="index, follow" />
+                <link rel="canonical" href={canonicalUrl} />
+
+                {/* Open Graph */}
+                <meta property="og:type" content="article" />
+                <meta property="og:url" content={canonicalUrl} />
+                <meta property="og:title" content={`${project.title} - Tunggul Abdul Majid`} />
+                <meta property="og:description" content={project.short_description} />
+                <meta property="og:image" content={project.thumbnail_url || `${appUrl}/images/og-image.png`} />
+
+                {/* Twitter */}
+                <meta name="twitter:card" content="summary_large_image" />
+                <meta name="twitter:url" content={canonicalUrl} />
+                <meta name="twitter:title" content={`${project.title} - Tunggul Abdul Majid`} />
+                <meta name="twitter:description" content={project.short_description} />
+                <meta name="twitter:image" content={project.thumbnail_url || `${appUrl}/images/og-image.png`} />
+
+                {/* Structured Data (JSON-LD) for Project */}
+                <script type="application/ld+json">
+                    {JSON.stringify({
+                        "@context": "https://schema.org",
+                        "@type": "CreativeWork",
+                        "name": project.title,
+                        "description": project.short_description,
+                        "creator": {
+                            "@type": "Person",
+                            "name": "Tunggul Abdul Majid",
+                            "alternateName": ["Tunggul", "Tunggul Abdul", "Tunggul Unej"]
+                        },
+                        "genre": project.category,
+                        "dateCreated": project.year ? `${project.year}` : undefined,
+                        "image": project.thumbnail_url || undefined,
+                        "codeRepository": project.repo_link || undefined,
+                        "url": canonicalUrl
+                    })}
+                </script>
+            </Head>
             <div className="min-h-screen bg-[#1e2235] text-white">
                 <Navbar />
 
@@ -258,10 +313,14 @@ export default function ProjectShow({ project, related }: ProjectShowProps) {
                     {/* Navigation Buttons */}
                     {project.images_url.length > 1 && (
                         <>
-                            <button onClick={(e) => { e.stopPropagation(); prevImage(); }} className="absolute left-4 p-3 text-white hover:bg-white/10 rounded-lg transition-colors">
+                            <button onClick={(e) => {
+ e.stopPropagation(); prevImage(); 
+}} className="absolute left-4 p-3 text-white hover:bg-white/10 rounded-lg transition-colors">
                                 <ChevronLeft size={32} />
                             </button>
-                            <button onClick={(e) => { e.stopPropagation(); nextImage(); }} className="absolute right-4 p-3 text-white hover:bg-white/10 rounded-lg transition-colors">
+                            <button onClick={(e) => {
+ e.stopPropagation(); nextImage(); 
+}} className="absolute right-4 p-3 text-white hover:bg-white/10 rounded-lg transition-colors">
                                 <ChevronRight size={32} />
                             </button>
                         </>

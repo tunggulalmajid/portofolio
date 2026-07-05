@@ -1,6 +1,6 @@
-import { Experience } from '@/types';
-import { Briefcase, MapPin, Calendar } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { Briefcase, MapPin, Calendar } from 'lucide-react';
+import type { Experience } from '@/types';
 
 interface ExperienceSectionProps {
     experiences: Experience[];
@@ -8,8 +8,12 @@ interface ExperienceSectionProps {
 
 // Helper untuk format date (YYYY-MM-DD) ke MMM YYYY
 function formatMonthYear(dateStr: string | null | undefined): string {
-    if (!dateStr) return '';
+    if (!dateStr) {
+return '';
+}
+
     const date = new Date(dateStr);
+
     return date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
 }
 

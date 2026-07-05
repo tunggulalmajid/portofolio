@@ -1,7 +1,7 @@
-import AdminLayout from '@/Layouts/AdminLayout';
 import { Link, useForm } from '@inertiajs/react';
-import { Experience, Position } from '@/types';
 import { ArrowLeft, Save, Plus, Trash2, X } from 'lucide-react';
+import AdminLayout from '@/Layouts/AdminLayout';
+import type { Experience, Position } from '@/types';
 
 interface Props { experience?: Experience; }
 
@@ -180,7 +180,10 @@ function ExperienceForm({ onSubmit, processing, data, setData, errors }: any) {
 
 export function ExperienceCreate() {
     const form = useForm({ company: '', position: '', positions: [] as Position[], type: 'work', location: '', start_date: '', end_date: null as string | null, is_current: false, description: '', responsibilities: [] as string[], order: 0, is_active: true });
-    const handleSubmit = (e: React.FormEvent) => { e.preventDefault(); form.post('/admin/experiences'); };
+    const handleSubmit = (e: React.FormEvent) => {
+ e.preventDefault(); form.post('/admin/experiences'); 
+};
+
     return (
         <AdminLayout title="Add Experience">
             <div className="max-w-3xl space-y-6">
@@ -196,7 +199,10 @@ export function ExperienceCreate() {
 
 export default function ExperienceEdit({ experience }: Props) {
     const form = useForm({ company: experience?.company ?? '', position: experience?.position ?? '', positions: experience?.positions ?? [], type: experience?.type ?? 'work', location: experience?.location ?? '', start_date: experience?.start_date ?? '', end_date: experience?.end_date ?? null, is_current: experience?.is_current ?? false, description: experience?.description ?? '', responsibilities: experience?.responsibilities ?? [], order: experience?.order ?? 0, is_active: experience?.is_active ?? true, _method: 'PUT' });
-    const handleSubmit = (e: React.FormEvent) => { e.preventDefault(); form.post(`/admin/experiences/${experience?.id}`); };
+    const handleSubmit = (e: React.FormEvent) => {
+ e.preventDefault(); form.post(`/admin/experiences/${experience?.id}`); 
+};
+
     return (
         <AdminLayout title="Edit Experience">
             <div className="max-w-3xl space-y-6">

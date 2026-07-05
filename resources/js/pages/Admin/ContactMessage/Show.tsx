@@ -1,6 +1,6 @@
-import AdminLayout from '@/Layouts/AdminLayout';
 import { Link } from '@inertiajs/react';
 import { ArrowLeft, Mail, Calendar, Globe, Monitor } from 'lucide-react';
+import AdminLayout from '@/Layouts/AdminLayout';
 
 interface Props {
     message: {

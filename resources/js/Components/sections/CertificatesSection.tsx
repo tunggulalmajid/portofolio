@@ -1,7 +1,7 @@
-import { Certificate } from '@/types';
+import { motion } from 'framer-motion';
 import { Award, ExternalLink, Calendar, X } from 'lucide-react';
 import { useState } from 'react';
-import { motion } from 'framer-motion';
+import type { Certificate } from '@/types';
 
 interface CertificatesSectionProps {
     certificates: Certificate[];
@@ -10,7 +10,9 @@ interface CertificatesSectionProps {
 export default function CertificatesSection({ certificates }: CertificatesSectionProps) {
     const [imagePreview, setImagePreview] = useState<string | null>(null);
 
-    if (certificates.length === 0) return null;
+    if (certificates.length === 0) {
+return null;
+}
 
     const openImagePreview = (url: string) => {
         setImagePreview(url);

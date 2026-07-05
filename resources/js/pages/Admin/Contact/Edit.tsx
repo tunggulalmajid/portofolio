@@ -1,9 +1,9 @@
-import AdminLayout from '@/Layouts/AdminLayout';
 import { Link, useForm } from '@inertiajs/react';
-import { Contact } from '@/types';
 import { ArrowLeft, Save } from 'lucide-react';
 import { useEffect } from 'react';
 import { toast } from 'react-hot-toast';
+import AdminLayout from '@/Layouts/AdminLayout';
+import type { Contact } from '@/types';
 
 interface Props { contact?: Contact; }
 
@@ -79,7 +79,10 @@ export function ContactCreate() {
         }
     }, [form.errors]);
     
-    const handleSubmit = (e: React.FormEvent) => { e.preventDefault(); form.post('/admin/contacts'); };
+    const handleSubmit = (e: React.FormEvent) => {
+ e.preventDefault(); form.post('/admin/contacts'); 
+};
+
     return (
         <AdminLayout title="Add Contact">
             <div className="max-w-3xl space-y-6">
@@ -103,7 +106,10 @@ export default function ContactEdit({ contact }: Props) {
         }
     }, [form.errors]);
     
-    const handleSubmit = (e: React.FormEvent) => { e.preventDefault(); form.post(`/admin/contacts/${contact?.id}`); };
+    const handleSubmit = (e: React.FormEvent) => {
+ e.preventDefault(); form.post(`/admin/contacts/${contact?.id}`); 
+};
+
     return (
         <AdminLayout title="Edit Contact">
             <div className="max-w-3xl space-y-6">

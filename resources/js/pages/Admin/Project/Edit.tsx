@@ -1,9 +1,9 @@
-import AdminLayout from '@/Layouts/AdminLayout';
 import { Link, useForm } from '@inertiajs/react';
-import { Project } from '@/types';
 import { ArrowLeft, Save, Plus, Trash2 } from 'lucide-react';
 import { useEffect } from 'react';
 import { toast } from 'react-hot-toast';
+import AdminLayout from '@/Layouts/AdminLayout';
+import type { Project } from '@/types';
 
 interface Props { project?: Project; }
 
@@ -202,7 +202,10 @@ export function ProjectCreate() {
         }
     }, [form.errors]);
     
-    const handleSubmit = (e: React.FormEvent) => { e.preventDefault(); form.post('/admin/projects', { forceFormData: true }); };
+    const handleSubmit = (e: React.FormEvent) => {
+ e.preventDefault(); form.post('/admin/projects', { forceFormData: true }); 
+};
+
     return (
         <AdminLayout title="Add Project">
             <div className="max-w-3xl space-y-6">
@@ -226,7 +229,10 @@ export default function ProjectEdit({ project }: Props) {
         }
     }, [form.errors]);
     
-    const handleSubmit = (e: React.FormEvent) => { e.preventDefault(); form.post(`/admin/projects/${project?.slug}`, { forceFormData: true }); };
+    const handleSubmit = (e: React.FormEvent) => {
+ e.preventDefault(); form.post(`/admin/projects/${project?.slug}`, { forceFormData: true }); 
+};
+
     return (
         <AdminLayout title="Edit Project">
             <div className="max-w-3xl space-y-6">

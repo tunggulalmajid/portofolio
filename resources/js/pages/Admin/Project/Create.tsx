@@ -1,6 +1,6 @@
-import AdminLayout from '@/Layouts/AdminLayout';
 import { Link, useForm } from '@inertiajs/react';
 import { ArrowLeft, Save, Plus, Trash2 } from 'lucide-react';
+import AdminLayout from '@/Layouts/AdminLayout';
 
 const inputClass = "w-full px-4 py-2.5 bg-[#151929] border border-white/10 focus:border-green-400 text-white rounded-xl outline-none text-sm transition-colors";
 const cardClass = "bg-[#1e2235] border border-white/5 rounded-2xl p-6 space-y-4";

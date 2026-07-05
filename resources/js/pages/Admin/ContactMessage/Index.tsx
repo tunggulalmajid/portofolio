@@ -1,6 +1,6 @@
-import AdminLayout from '@/Layouts/AdminLayout';
 import { Link, router } from '@inertiajs/react';
 import { Mail, MailOpen, Trash2, Eye, Calendar } from 'lucide-react';
+import AdminLayout from '@/Layouts/AdminLayout';
 
 interface Message {
     id: number;

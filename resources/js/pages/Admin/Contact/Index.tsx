@@ -1,14 +1,17 @@
-import AdminLayout from '@/Layouts/AdminLayout';
-import { Link, router, usePage } from '@inertiajs/react';
-import { Contact, PaginatedData, FlashMessage } from '@/types';
+import { Link, router } from '@inertiajs/react';
 import { Plus, Edit, Trash2, Globe } from 'lucide-react';
+import AdminLayout from '@/Layouts/AdminLayout';
+import type { Contact, PaginatedData} from '@/types';
 
 interface Props { contacts: PaginatedData<Contact>; }
 
 export default function ContactIndex({ contacts }: Props) {
     const handleDelete = (id: number) => {
-        if (confirm('Delete this contact?')) router.delete(`/admin/contacts/${id}`);
+        if (confirm('Delete this contact?')) {
+router.delete(`/admin/contacts/${id}`);
+}
     };
+
     return (
         <AdminLayout title="Manage Contacts">
             <div className="space-y-6">

@@ -1,7 +1,7 @@
-import AdminLayout from '@/Layouts/AdminLayout';
-import { Link, usePage } from '@inertiajs/react';
-import { Hero, FlashMessage } from '@/types';
+import { Link } from '@inertiajs/react';
 import { Edit, User } from 'lucide-react';
+import AdminLayout from '@/Layouts/AdminLayout';
+import type { Hero} from '@/types';
 
 interface HeroIndexProps {
     hero: Hero | null;

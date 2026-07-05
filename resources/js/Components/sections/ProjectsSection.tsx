@@ -1,7 +1,7 @@
-import { Project } from '@/types';
 import { Link } from '@inertiajs/react';
-import { ExternalLink, ArrowRight, GitBranch, Calendar } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { ExternalLink, ArrowRight, GitBranch, Calendar } from 'lucide-react';
+import type { Project } from '@/types';
 
 interface ProjectsSectionProps {
     projects: Project[];

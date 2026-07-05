@@ -1,8 +1,8 @@
-import AdminLayout from '@/Layouts/AdminLayout';
-import { Link, router, usePage } from '@inertiajs/react';
-import { Certificate, PaginatedData, FlashMessage } from '@/types';
+import { Link, router } from '@inertiajs/react';
 import { Plus, Edit, Trash2, Award, ExternalLink, Eye, X } from 'lucide-react';
 import { useState } from 'react';
+import AdminLayout from '@/Layouts/AdminLayout';
+import type { Certificate, PaginatedData} from '@/types';
 
 interface Props { certificates: PaginatedData<Certificate>; }
 
@@ -10,7 +10,9 @@ export default function CertificateIndex({ certificates }: Props) {
     const [imagePreview, setImagePreview] = useState<string | null>(null);
 
     const handleDelete = (id: number) => {
-        if (confirm('Delete this certificate?')) router.delete(`/admin/certificates/${id}`);
+        if (confirm('Delete this certificate?')) {
+router.delete(`/admin/certificates/${id}`);
+}
     };
 
     const openImagePreview = (url: string) => {

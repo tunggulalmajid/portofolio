@@ -1,7 +1,7 @@
-import AdminLayout from '@/Layouts/AdminLayout';
-import { Link, router, usePage } from '@inertiajs/react';
-import { Experience, PaginatedData, FlashMessage } from '@/types';
+import { Link, router } from '@inertiajs/react';
 import { Plus, Edit, Trash2, Briefcase, GraduationCap, Users } from 'lucide-react';
+import AdminLayout from '@/Layouts/AdminLayout';
+import type { Experience, PaginatedData} from '@/types';
 
 interface ExperienceIndexProps { experiences: PaginatedData<Experience>; }
 

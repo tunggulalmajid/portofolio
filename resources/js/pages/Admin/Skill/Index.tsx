@@ -1,14 +1,17 @@
-import AdminLayout from '@/Layouts/AdminLayout';
-import { Link, router, usePage } from '@inertiajs/react';
-import { Skill, PaginatedData, FlashMessage } from '@/types';
+import { Link, router } from '@inertiajs/react';
 import { Plus, Edit, Trash2 } from 'lucide-react';
+import AdminLayout from '@/Layouts/AdminLayout';
+import type { Skill, PaginatedData} from '@/types';
 
 interface Props { skills: PaginatedData<Skill>; }
 
 export default function SkillIndex({ skills }: Props) {
     const handleDelete = (id: number) => {
-        if (confirm('Delete this skill?')) router.delete(`/admin/skills/${id}`);
+        if (confirm('Delete this skill?')) {
+router.delete(`/admin/skills/${id}`);
+}
     };
+
     return (
         <AdminLayout title="Manage Skills">
             <div className="space-y-6">

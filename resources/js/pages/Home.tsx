@@ -1,5 +1,4 @@
-import { Head } from '@inertiajs/react';
-import { motion } from 'framer-motion';
+import { Head, usePage } from '@inertiajs/react';
 import Footer from '@/Components/Footer';
 import Navbar from '@/Components/Navbar';
 import AboutSection from '@/Components/sections/AboutSection';
@@ -41,9 +40,58 @@ export default function Home({
     allSkills,
     contacts,
 }: HomeProps) {
+    const { props } = usePage();
+    const appUrl = (props.appUrl as string) || 'https://tunggulalmajid.com';
+    const socialLinks = contacts
+        .filter((c) => c.url && ['github', 'linkedin', 'instagram', 'twitter'].includes(c.type.toLowerCase()))
+        .map((c) => c.url as string);
+
     return (
         <>
-            <Head title="Tunggul Abdul Majid" />
+            <Head>
+                <title>Tunggul Abdul Majid - Software Developer</title>
+                <meta name="description" content="Portfolio of Tunggul Abdul Majid, a web developer and student at UNEJ (Universitas Jember). Specializing in Laravel, React, Tailwind CSS, and modern web application development. View my projects, skills, certificates, and work experience." />
+                <meta name="keywords" content="tunggul, tunggul abdul, tunggul abdul majid, tunggul unej, tunggul abdul majid unej, universitas jember, web developer, portfolio, laravel, react, nextjs, inertiajs" />
+                <meta name="author" content="Tunggul Abdul Majid" />
+                <meta name="robots" content="index, follow" />
+                <link rel="canonical" href={appUrl} />
+
+                {/* Open Graph / Facebook */}
+                <meta property="og:type" content="website" />
+                <meta property="og:url" content={appUrl} />
+                <meta property="og:title" content="Tunggul Abdul Majid - Web Developer Portfolio" />
+                <meta property="og:description" content="Portfolio of Tunggul Abdul Majid, a web developer and student at UNEJ (Universitas Jember). Showcasing projects, skills, certificates, and experience." />
+                <meta property="og:image" content={`${appUrl}/images/og-image.png`} />
+
+                {/* Twitter */}
+                <meta name="twitter:card" content="summary_large_image" />
+                <meta name="twitter:url" content={appUrl} />
+                <meta name="twitter:title" content="Tunggul Abdul Majid - Web Developer Portfolio" />
+                <meta name="twitter:description" content="Portfolio of Tunggul Abdul Majid, a web developer and student at UNEJ (Universitas Jember). Showcasing projects, skills, certificates, and experience." />
+                <meta name="twitter:image" content={`${appUrl}/images/og-image.png`} />
+
+                {/* Structured Data (JSON-LD) for SEO */}
+                <script type="application/ld+json">
+                    {JSON.stringify({
+                        "@context": "https://schema.org",
+                        "@type": "Person",
+                        "name": "Tunggul Abdul Majid",
+                        "givenName": "Tunggul",
+                        "additionalName": "Abdul",
+                        "familyName": "Majid",
+                        "alternateName": ["Tunggul", "Tunggul Abdul", "Tunggul Unej"],
+                        "url": appUrl,
+                        "alumniOf": {
+                            "@type": "EducationalOrganization",
+                            "name": "Universitas Jember",
+                            "alternateName": "UNEJ"
+                        },
+                        "jobTitle": "Web Developer",
+                        "description": "Student at Universitas Jember (UNEJ) and Web Developer specializing in Laravel, React, and modern web systems.",
+                        "sameAs": socialLinks
+                    })}
+                </script>
+            </Head>
             <div className="min-h-screen bg-[#1e2235] text-white">
                 <Navbar />
                 <HeroSection hero={hero} />

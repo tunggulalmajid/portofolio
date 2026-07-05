@@ -1,7 +1,7 @@
-import AdminLayout from '@/Layouts/AdminLayout';
 import { Link, useForm } from '@inertiajs/react';
-import { Skill } from '@/types';
 import { ArrowLeft, Save } from 'lucide-react';
+import AdminLayout from '@/Layouts/AdminLayout';
+import type { Skill } from '@/types';
 
 interface Props { skill?: Skill; }
 
@@ -64,7 +64,10 @@ function SkillForm({ onSubmit, processing, data, setData, errors }: any) {
 
 export function SkillCreate() {
     const form = useForm({ name: '', category: '', icon_name: '', color: '#4ade80', order: 0, is_active: true });
-    const handleSubmit = (e: React.FormEvent) => { e.preventDefault(); form.post('/admin/skills'); };
+    const handleSubmit = (e: React.FormEvent) => {
+ e.preventDefault(); form.post('/admin/skills'); 
+};
+
     return (
         <AdminLayout title="Add Skill">
             <div className="max-w-3xl space-y-6">
@@ -80,7 +83,10 @@ export function SkillCreate() {
 
 export default function SkillEdit({ skill }: Props) {
     const form = useForm({ name: skill?.name ?? '', category: skill?.category ?? '', icon_name: skill?.icon_name ?? '', color: skill?.color ?? '#4ade80', order: skill?.order ?? 0, is_active: skill?.is_active ?? true, _method: 'PUT' });
-    const handleSubmit = (e: React.FormEvent) => { e.preventDefault(); form.post(`/admin/skills/${skill?.id}`); };
+    const handleSubmit = (e: React.FormEvent) => {
+ e.preventDefault(); form.post(`/admin/skills/${skill?.id}`); 
+};
+
     return (
         <AdminLayout title="Edit Skill">
             <div className="max-w-3xl space-y-6">

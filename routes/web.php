@@ -20,6 +20,46 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/projects', [ProjectController::class, 'index'])->name('projects.index');
 Route::get('/projects/{project:slug}', [ProjectController::class, 'show'])->name('projects.show');
 
+// Sitemap
+Route::get('/sitemap.xml', function () {
+    $projects = \App\Models\Project::active()->get();
+    
+    $xml = '<?xml version="1.0" encoding="UTF-8"?>';
+    $xml .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
+    
+    // Homepage
+    $xml .= '<url>';
+    $xml .= '<loc>' . url('/') . '</loc>';
+    $xml .= '<lastmod>' . now()->toAtomString() . '</lastmod>';
+    $xml .= '<changefreq>daily</changefreq>';
+    $xml .= '<priority>1.0</priority>';
+    $xml .= '</url>';
+    
+    // Projects Index
+    $xml .= '<url>';
+    $xml .= '<loc>' . url('/projects') . '</loc>';
+    $xml .= '<lastmod>' . now()->toAtomString() . '</lastmod>';
+    $xml .= '<changefreq>weekly</changefreq>';
+    $xml .= '<priority>0.8</priority>';
+    $xml .= '</url>';
+    
+    // Project Show Pages
+    foreach ($projects as $project) {
+        $xml .= '<url>';
+        $xml .= '<loc>' . url('/projects/' . $project->slug) . '</loc>';
+        $xml .= '<lastmod>' . $project->updated_at->toAtomString() . '</lastmod>';
+        $xml .= '<changefreq>monthly</changefreq>';
+        $xml .= '<priority>0.7</priority>';
+        $xml .= '</url>';
+    }
+    
+    $xml .= '</urlset>';
+    
+    return response($xml, 200, [
+        'Content-Type' => 'application/xml'
+    ]);
+});
+
 // Contact Form
 Route::post('/contact', [ContactMessageController::class, 'store'])->name('contact.store');
 

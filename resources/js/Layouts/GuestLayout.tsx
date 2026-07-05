@@ -1,7 +1,7 @@
 import { Head } from '@inertiajs/react';
-import Navbar from '@/Components/Navbar';
 import Footer from '@/Components/Footer';
-import { Contact } from '@/types';
+import Navbar from '@/Components/Navbar';
+import type { Contact } from '@/types';
 
 interface GuestLayoutProps {
     title?: string;

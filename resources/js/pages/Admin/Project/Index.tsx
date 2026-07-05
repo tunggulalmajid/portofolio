@@ -1,7 +1,7 @@
-import AdminLayout from '@/Layouts/AdminLayout';
-import { Link, router, usePage } from '@inertiajs/react';
-import { Project, PaginatedData, FlashMessage } from '@/types';
+import { Link, router } from '@inertiajs/react';
 import { Plus, Edit, Trash2, Star, ExternalLink } from 'lucide-react';
+import AdminLayout from '@/Layouts/AdminLayout';
+import type { Project, PaginatedData} from '@/types';
 
 interface Props { projects: PaginatedData<Project>; }
 
@@ -13,7 +13,9 @@ const statusColors: Record<string, string> = {
 
 export default function ProjectIndex({ projects }: Props) {
     const handleDelete = (slug: string) => {
-        if (confirm('Delete this project?')) router.delete(`/admin/projects/${slug}`);
+        if (confirm('Delete this project?')) {
+router.delete(`/admin/projects/${slug}`);
+}
     };
 
     return (

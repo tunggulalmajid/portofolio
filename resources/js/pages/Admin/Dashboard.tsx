@@ -1,7 +1,7 @@
-import AdminLayout from '@/Layouts/AdminLayout';
 import { Link } from '@inertiajs/react';
 import { Code2, Award, Briefcase, Zap, Star, CheckCircle, ArrowRight } from 'lucide-react';
-import { Project } from '@/types';
+import AdminLayout from '@/Layouts/AdminLayout';
+import type { Project } from '@/types';
 
 interface DashboardProps {
     stats: {
@@ -38,6 +38,7 @@ export default function Dashboard({ stats, recentProjects }: DashboardProps) {
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
                     {statCards(stats).map((card) => {
                         const Icon = card.icon;
+
                         return (
                             <Link
                                 key={card.label}

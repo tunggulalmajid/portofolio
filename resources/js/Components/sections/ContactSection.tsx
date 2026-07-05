@@ -1,9 +1,9 @@
-import { Contact } from '@/types';
-import { useState } from 'react';
-import { Mail, Phone, Send, Globe } from 'lucide-react';
-import { toast } from 'react-hot-toast';
 import { router } from '@inertiajs/react';
 import { motion } from 'framer-motion';
+import { Mail, Phone, Send, Globe } from 'lucide-react';
+import { useState } from 'react';
+import { toast } from 'react-hot-toast';
+import type { Contact } from '@/types';
 
 interface ContactSectionProps {
     contacts: Contact[];
@@ -42,6 +42,7 @@ export default function ContactSection({ contacts }: ContactSectionProps) {
             onError: (errors) => {
                 setStatus('idle');
                 const firstError = Object.values(errors)[0];
+
                 if (typeof firstError === 'string') {
                     toast.error(firstError);
                 } else {

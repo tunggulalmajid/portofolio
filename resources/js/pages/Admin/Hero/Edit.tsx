@@ -1,7 +1,7 @@
-import AdminLayout from '@/Layouts/AdminLayout';
 import { Link, useForm } from '@inertiajs/react';
-import { Hero } from '@/types';
 import { ArrowLeft, Save } from 'lucide-react';
+import AdminLayout from '@/Layouts/AdminLayout';
+import type { Hero } from '@/types';
 
 interface HeroEditProps {
     hero: Hero | null;
