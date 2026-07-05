@@ -32,7 +32,7 @@ export default function Footer({ contacts = [] }: FooterProps) {
                             tunggulalmajid<span className="text-green-400">.</span>
                         </a>
                         <p className="text-gray-500 text-sm leading-relaxed">
-                            Full Stack Developer passionate about building clean, functional, and beautiful web experiences.
+                            Senantiasa Belajar Menjadi Lebih Baik
                         </p>
                         {emailContact && (
                             <a href={`mailto:${emailContact.value}`} className="flex items-center gap-2 text-sm text-gray-400 hover:text-green-400 transition-colors">
@@ -79,10 +79,7 @@ export default function Footer({ contacts = [] }: FooterProps) {
                 {/* Bottom bar */}
                 <div className="mt-12 pt-8 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4">
                     <p className="text-xs text-gray-600">
-                        &copy; {new Date().getFullYear()} Tunggul Abdul Majid. All rights reserved.
-                    </p>
-                    <p className="text-xs text-gray-600 flex items-center gap-1.5">
-                        Built with <Heart size={11} className="text-green-400 fill-green-400" /> using Laravel & React
+                        &copy; 2025 TunggulAlMajid
                     </p>
                 </div>
             </div>

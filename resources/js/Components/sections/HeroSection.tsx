@@ -127,17 +127,17 @@ export default function HeroSection({ hero }: HeroSectionProps) {
                                     {
                                         label: 'GitHub',
                                         icon: <GitBranch size={18} />,
-                                        href: 'https://github.com',
+                                        href: 'https://github.com/tunggulalmajid',
                                     },
                                     {
                                         label: 'LinkedIn',
                                         icon: <ArrowRight size={18} />,
-                                        href: 'https://linkedin.com',
+                                        href: 'https://www.linkedin.com/in/tunggulabdulmajid/',
                                     },
                                     {
                                         label: 'Email',
                                         icon: <Mail size={18} />,
-                                        href: 'mailto:',
+                                        href: 'mailto:[tunggulmajid@gmail.com]',
                                     },
                                 ].map((s) => (
                                     <a
