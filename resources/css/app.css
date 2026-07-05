@@ -30,3 +30,99 @@
         border-radius: 3px;
     }
 }
+
+@layer components {
+    /* Rich Text Editor Styles */
+    .prose-invert {
+        color: #9ca3af;
+    }
+
+    .prose-invert h1,
+    .prose-invert h2,
+    .prose-invert h3 {
+        color: #fff;
+        font-weight: 700;
+        margin-top: 1.5em;
+        margin-bottom: 0.75em;
+    }
+
+    .prose-invert h1 {
+        font-size: 2em;
+    }
+
+    .prose-invert h2 {
+        font-size: 1.5em;
+    }
+
+    .prose-invert h3 {
+        font-size: 1.25em;
+    }
+
+    .prose-invert p {
+        margin-bottom: 1em;
+        line-height: 1.75;
+    }
+
+    .prose-invert a {
+        color: #4ade80;
+        text-decoration: underline;
+    }
+
+    .prose-invert a:hover {
+        color: #86efac;
+    }
+
+    .prose-invert strong {
+        color: #fff;
+        font-weight: 600;
+    }
+
+    .prose-invert ul,
+    .prose-invert ol {
+        margin-top: 1em;
+        margin-bottom: 1em;
+        padding-left: 1.5em;
+    }
+
+    .prose-invert ul {
+        list-style-type: disc;
+    }
+
+    .prose-invert ol {
+        list-style-type: decimal;
+    }
+
+    .prose-invert li {
+        margin-top: 0.5em;
+        margin-bottom: 0.5em;
+    }
+
+    .prose-invert code {
+        color: #4ade80;
+        background-color: rgba(74, 222, 128, 0.1);
+        padding: 0.2em 0.4em;
+        border-radius: 0.25rem;
+        font-size: 0.875em;
+    }
+
+    .prose-invert blockquote {
+        border-left: 4px solid #4ade80;
+        padding-left: 1em;
+        margin: 1.5em 0;
+        font-style: italic;
+        color: #d1d5db;
+    }
+
+    /* Tiptap Editor Placeholder */
+    .ProseMirror p.is-editor-empty:first-child::before {
+        color: #6b7280;
+        content: attr(data-placeholder);
+        float: left;
+        height: 0;
+        pointer-events: none;
+    }
+
+    .ProseMirror:focus {
+        outline: none;
+    }
+}

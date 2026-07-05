@@ -1,6 +1,7 @@
 import { Link, useForm } from '@inertiajs/react';
 import { ArrowLeft, Save, Plus, Trash2 } from 'lucide-react';
 import AdminLayout from '@/Layouts/AdminLayout';
+import RichTextEditor from '@/Components/RichTextEditor';
 
 const inputClass =
     'w-full px-4 py-2.5 bg-[#151929] border border-white/10 focus:border-green-400 text-white rounded-xl outline-none text-sm transition-colors';
@@ -94,7 +95,7 @@ export default function ProjectCreate() {
                                     className={inputClass}
                                 >
                                     <option value="">Select Category</option>
-                                    <option value="">
+                                    <option value="Fullstack Web Development">
                                         Fullstack Web Development
                                     </option>
                                     <option value="Frontend Web Application">
@@ -242,16 +243,13 @@ export default function ProjectCreate() {
                             <label className="mb-1.5 block text-sm font-medium text-gray-400">
                                 Full Description
                             </label>
-                            <textarea
-                                rows={4}
+                            <RichTextEditor
                                 value={form.data.full_description}
-                                onChange={(e) =>
-                                    form.setData(
-                                        'full_description',
-                                        e.target.value,
-                                    )
+                                onChange={(value) =>
+                                    form.setData('full_description', value)
                                 }
-                                className={inputClass}
+                                placeholder="Write detailed project description..."
+                                minHeight="250px"
                             />
                             {form.errors.full_description && (
                                 <p className="mt-1 text-xs text-red-400">

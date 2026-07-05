@@ -190,11 +190,10 @@ export default function ProjectShow({ project, related }: ProjectShowProps) {
                             {/* Main */}
                             <div className="lg:col-span-2">
                                 <h2 className="text-2xl font-bold text-white mb-6">About This Project</h2>
-                                <div className="space-y-4">
-                                    {project.full_description.split('\n').filter(Boolean).map((para, i) => (
-                                        <p key={i} className="text-gray-400 leading-relaxed">{para}</p>
-                                    ))}
-                                </div>
+                                <div 
+                                    className="prose prose-invert max-w-none"
+                                    dangerouslySetInnerHTML={{ __html: project.full_description }}
+                                />
 
                                 {project.images_url && project.images_url.length > 0 && (
                                     <div className="mt-12">
