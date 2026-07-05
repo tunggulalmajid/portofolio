@@ -1,6 +1,6 @@
+import { motion } from 'framer-motion';
 import * as LucideIcons from 'lucide-react';
 import type { Skill } from '@/types';
-import { motion } from 'framer-motion';
 
 interface SkillsSectionProps {
     skills: Record<string, Skill[]>;
@@ -78,10 +78,9 @@ export default function SkillsSection({
                             key={category}
                             initial={{ opacity: 0, scale: 0.9 }}
                             whileInView={{ opacity: 1, scale: 1 }}
-                            viewport={{ once: true, margin: "-50px" }}
+                            viewport={{ once: true, margin: '-50px' }}
                             transition={{ duration: 0.4, delay: index * 0.1 }}
-                            whileHover={{ scale: 1.05, y: -5 }}
-                            className="rounded-2xl border border-white/5 bg-[#1e2235] p-6 transition-all hover:border-green-400/20"
+                            className="rounded-2xl border border-white/5 bg-[#1e2235] p-6 transition-colors hover:border-green-400/20"
                         >
                             {/* Category header */}
                             <div className="mb-3 flex items-center gap-3">
@@ -102,7 +101,7 @@ export default function SkillsSection({
                                 {skills[category].map((skill) => (
                                     <span
                                         key={skill.id}
-                                        className="flex items-center gap-1.5 rounded-lg border bg-[#151929] px-2.5 py-1.5 text-xs transition-all hover:border-opacity-50"
+                                        className="flex items-center gap-1.5 rounded-lg border bg-[#151929] px-2.5 py-1.5 text-xs transition-colors hover:border-opacity-50"
                                         style={{
                                             borderColor: skill.color
                                                 ? `${skill.color}30`

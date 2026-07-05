@@ -1,7 +1,7 @@
 import { Link, usePage } from '@inertiajs/react';
 
-import { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
+import { useState, useEffect } from 'react';
 
 const navLinks = [
     { label: 'Home', href: '/' },
@@ -21,18 +21,27 @@ export default function Navbar() {
     useEffect(() => {
         const handleScroll = () => setScrolled(window.scrollY > 20);
         window.addEventListener('scroll', handleScroll);
+
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    const handleAnchorClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    const handleAnchorClick = (
+        e: React.MouseEvent<HTMLAnchorElement>,
+        href: string,
+    ) => {
         if (href.startsWith('/#')) {
             e.preventDefault();
             const id = href.substring(2);
+
             if (url !== '/') {
+                // eslint-disable-next-line react-hooks/immutability
                 window.location.href = href;
+
                 return;
             }
+
             const element = document.getElementById(id);
+
             if (element) {
                 element.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 setIsOpen(false);
@@ -41,24 +50,31 @@ export default function Navbar() {
     };
 
     return (
-        <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-            scrolled ? 'bg-[#1e2235]/95 backdrop-blur-md border-b border-white/5 shadow-lg' : 'bg-transparent'
-        }`}>
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex items-center justify-between h-16">
+        <nav
+            className={`fixed left-0 right-0 top-0 z-50 transition-all duration-200 ${
+                scrolled
+                    ? 'border-b border-white/5 bg-[#1e2235]/95 shadow-lg backdrop-blur-md'
+                    : 'bg-transparent'
+            }`}
+        >
+            <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
+                <div className="flex h-16 items-center justify-between">
                     {/* Logo */}
-                    <Link href="/" className="text-xl font-bold text-white hover:opacity-80 transition-opacity">
+                    <Link
+                        href="/"
+                        className="text-xl font-bold text-white transition-opacity hover:opacity-80"
+                    >
                         tunggulalmajid<span className="text-green-400">.</span>
                     </Link>
 
                     {/* Desktop Nav */}
-                    <div className="hidden md:flex items-center gap-1">
+                    <div className="hidden items-center gap-1 md:flex">
                         {navLinks.map((link) => (
                             <a
                                 key={link.href}
                                 href={link.href}
                                 onClick={(e) => handleAnchorClick(e, link.href)}
-                                className={`px-3 py-2 text-sm font-medium rounded-lg transition-all ${
+                                className={`rounded-lg px-3 py-2 text-sm font-medium transition-all ${
                                     url === link.href
                                         ? 'text-green-400'
                                         : 'text-gray-300 hover:text-green-400'
@@ -67,13 +83,12 @@ export default function Navbar() {
                                 {link.label}
                             </a>
                         ))}
-
                     </div>
 
                     {/* Mobile toggle */}
                     <button
                         onClick={() => setIsOpen(!isOpen)}
-                        className="md:hidden p-2 text-gray-300 hover:text-white transition-colors"
+                        className="p-2 text-gray-300 transition-colors hover:text-white md:hidden"
                         aria-label="Toggle menu"
                     >
                         {isOpen ? <X size={22} /> : <Menu size={22} />}
@@ -83,14 +98,14 @@ export default function Navbar() {
 
             {/* Mobile Menu */}
             {isOpen && (
-                <div className="md:hidden bg-[#1e2235]/98 backdrop-blur-md border-t border-white/5">
-                    <div className="px-4 py-4 flex flex-col gap-1">
+                <div className="bg-[#1e2235]/98 border-t border-white/5 backdrop-blur-md md:hidden">
+                    <div className="flex flex-col gap-1 px-4 py-4">
                         {navLinks.map((link) => (
                             <a
                                 key={link.href}
                                 href={link.href}
                                 onClick={(e) => handleAnchorClick(e, link.href)}
-                                className="px-4 py-2.5 text-gray-300 hover:text-green-400 rounded-lg transition-all font-medium text-sm"
+                                className="rounded-lg px-4 py-2.5 text-sm font-medium text-gray-300 transition-all hover:text-green-400"
                             >
                                 {link.label}
                             </a>

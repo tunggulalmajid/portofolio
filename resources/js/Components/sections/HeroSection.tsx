@@ -95,12 +95,11 @@ export default function HeroSection({ hero }: HeroSectionProps) {
                         >
                             {hero.cta_primary_link && (
                                 <motion.a
-                                    whileHover={{ scale: 1.05, y: -2 }}
-                                    whileTap={{ scale: 0.95 }}
+                                    whileTap={{ scale: 0.98 }}
                                     href={hero.cta_primary_link}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="inline-flex items-center gap-2 rounded-lg bg-green-400 px-6 py-3 font-semibold text-[#1e2235] transition-all hover:bg-green-300 hover:shadow-lg hover:shadow-green-400/25"
+                                    className="inline-flex items-center gap-2 rounded-lg bg-green-400 px-6 py-3 font-semibold text-[#1e2235] transition-colors hover:bg-green-300"
                                 >
                                     <Download size={18} />
                                     Download CV
@@ -108,10 +107,9 @@ export default function HeroSection({ hero }: HeroSectionProps) {
                             )}
                             {hero.cta_secondary_link && (
                                 <motion.a
-                                    whileHover={{ scale: 1.05, y: -2 }}
-                                    whileTap={{ scale: 0.95 }}
+                                    whileTap={{ scale: 0.98 }}
                                     href={hero.cta_secondary_link}
-                                    className="inline-flex items-center gap-2 rounded-lg border border-green-400/40 px-6 py-3 font-semibold text-green-400 transition-all hover:border-green-400 hover:text-green-300"
+                                    className="inline-flex items-center gap-2 rounded-lg border border-green-400/40 px-6 py-3 font-semibold text-green-400 transition-colors hover:border-green-400 hover:text-green-300"
                                 >
                                     Projects
                                     <ArrowRight size={18} />
@@ -146,7 +144,7 @@ export default function HeroSection({ hero }: HeroSectionProps) {
                                         key={s.label}
                                         href={s.href}
                                         aria-label={s.label}
-                                        className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/10 text-gray-400 transition-all hover:border-green-400/50 hover:text-green-400"
+                                        className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/10 text-gray-400 transition-colors hover:border-green-400/50 hover:text-green-400"
                                     >
                                         {s.icon}
                                     </a>

@@ -147,7 +147,7 @@ export default function ProjectShow({ project, related }: ProjectShowProps) {
                                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                             {project.images_url.map((img, i) => (
                                                 <div key={i} className="cursor-pointer group relative aspect-video rounded-xl border border-white/5 overflow-hidden" onClick={() => openLightbox(i)}>
-                                                    <img src={img} alt={`Screenshot ${i + 1}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                                                    <img src={img} alt={`Screenshot ${i + 1}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-150" />
                                                     <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                                                         <span className="text-white text-sm font-medium">Click to view</span>
                                                     </div>
@@ -226,7 +226,7 @@ export default function ProjectShow({ project, related }: ProjectShowProps) {
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
                                 {related.map((proj) => (
                                     <Link key={proj.id} href={`/projects/${proj.slug}`}
-                                        className="group bg-[#1e2235] border border-white/5 hover:border-green-400/20 rounded-2xl p-5 transition-all">
+                                        className="group bg-[#1e2235] border border-white/5 hover:border-green-400/20 rounded-2xl p-5 transition-colors">
                                         <h3 className="font-semibold text-white group-hover:text-green-400 transition-colors mb-2">{proj.title}</h3>
                                         <p className="text-gray-400 text-sm line-clamp-2 mb-3">{proj.short_description}</p>
                                         <span className="text-green-400 text-sm flex items-center gap-1 font-medium">

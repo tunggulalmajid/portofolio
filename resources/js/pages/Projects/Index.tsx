@@ -106,12 +106,12 @@ export default function ProjectsIndex({ projects, categories, filters }: Project
                                     {projects.data.map((project) => (
                                         <div
                                             key={project.id}
-                                            className="group bg-[#252a40] border border-white/5 hover:border-green-400/20 rounded-2xl overflow-hidden transition-all hover:shadow-xl hover:-translate-y-1"
+                                            className="group bg-[#252a40] border border-white/5 hover:border-green-400/20 rounded-2xl overflow-hidden transition-colors"
                                         >
                                             <div className="aspect-video bg-[#1e2235] overflow-hidden relative">
                                                 {project.thumbnail_url ? (
                                                     <img src={project.thumbnail_url} alt={project.title}
-                                                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                                                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-150" />
                                                 ) : (
                                                     <div className="w-full h-full flex items-center justify-center">
                                                         <span className="text-5xl font-bold text-green-400/10">{project.title.charAt(0)}</span>

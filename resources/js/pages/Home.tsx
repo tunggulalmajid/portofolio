@@ -1,15 +1,24 @@
 import { Head } from '@inertiajs/react';
-import { Hero, About, Experience, Project, Certificate, Skill, Contact } from '@/types';
-import Navbar from '@/Components/Navbar';
-import Footer from '@/Components/Footer';
-import HeroSection from '@/Components/sections/HeroSection';
-import AboutSection from '@/Components/sections/AboutSection';
-import ExperienceSection from '@/Components/sections/ExperienceSection';
-import ProjectsSection from '@/Components/sections/ProjectsSection';
-import CertificatesSection from '@/Components/sections/CertificatesSection';
-import SkillsSection from '@/Components/sections/SkillsSection';
-import ContactSection from '@/Components/sections/ContactSection';
 import { motion } from 'framer-motion';
+import Footer from '@/Components/Footer';
+import Navbar from '@/Components/Navbar';
+import AboutSection from '@/Components/sections/AboutSection';
+import CertificatesSection from '@/Components/sections/CertificatesSection';
+import ContactSection from '@/Components/sections/ContactSection';
+import ExperienceSection from '@/Components/sections/ExperienceSection';
+import HeroSection from '@/Components/sections/HeroSection';
+import ProjectsSection from '@/Components/sections/ProjectsSection';
+import SkillsSection from '@/Components/sections/SkillsSection';
+
+import type {
+    Hero,
+    About,
+    Experience,
+    Certificate,
+    Project,
+    Skill,
+    Contact,
+} from '@/types';
 
 interface HomeProps {
     hero: Hero | null;
@@ -22,10 +31,19 @@ interface HomeProps {
     contacts: Contact[];
 }
 
-export default function Home({ hero, about, experiences, projects, certificates, skills, allSkills, contacts }: HomeProps) {
+export default function Home({
+    hero,
+    about,
+    experiences,
+    projects,
+    certificates,
+    skills,
+    allSkills,
+    contacts,
+}: HomeProps) {
     return (
         <>
-            <Head title="Home - Tunggul Abdul Majid" />
+            <Head title="Tunggul Abdul Majid" />
             <div className="min-h-screen bg-[#1e2235] text-white">
                 <Navbar />
                 <HeroSection hero={hero} />

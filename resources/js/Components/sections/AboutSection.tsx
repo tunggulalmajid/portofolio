@@ -1,6 +1,6 @@
+import { motion } from 'framer-motion';
 import { MapPin, Mail, Phone } from 'lucide-react';
 import type { About } from '@/types';
-import { motion } from 'framer-motion';
 
 interface AboutSectionProps {
     about: About | null;
@@ -30,14 +30,14 @@ export default function AboutSection({ about }: AboutSectionProps) {
 
                 <div className="grid grid-cols-1 items-start gap-16 lg:grid-cols-2">
                     {/* Left: Info */}
-                    <motion.div 
+                    <motion.div
                         initial={{ opacity: 0, x: -50 }}
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true, margin: "-100px" }}
                         transition={{ duration: 0.6 }}
                         className="space-y-6"
                     >
-                        <motion.h3 
+                        <motion.h3
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
@@ -46,7 +46,7 @@ export default function AboutSection({ about }: AboutSectionProps) {
                         >
                             {about.title}
                         </motion.h3>
-                        <motion.p 
+                        <motion.p
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
@@ -56,7 +56,7 @@ export default function AboutSection({ about }: AboutSectionProps) {
                             {about.description}
                         </motion.p>
                         {about.short_bio && (
-                            <motion.p 
+                            <motion.p
                                 initial={{ opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
@@ -68,7 +68,7 @@ export default function AboutSection({ about }: AboutSectionProps) {
                         )}
 
                         {/* Info list */}
-                        <motion.div 
+                        <motion.div
                             initial={{ opacity: 0 }}
                             whileInView={{ opacity: 1 }}
                             viewport={{ once: true }}
@@ -111,7 +111,7 @@ export default function AboutSection({ about }: AboutSectionProps) {
                         </motion.div>
 
                         {about.is_available && (
-                            <motion.div 
+                            <motion.div
                                 initial={{ opacity: 0, scale: 0.9 }}
                                 whileInView={{ opacity: 1, scale: 1 }}
                                 viewport={{ once: true }}
@@ -127,12 +127,12 @@ export default function AboutSection({ about }: AboutSectionProps) {
                     </motion.div>
 
                     {/* Right: Terminal code block */}
-                    <motion.div 
+                    <motion.div
                         initial={{ opacity: 0, x: 50 }}
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true, margin: "-100px" }}
                         transition={{ duration: 0.6, delay: 0.3 }}
-                        whileHover={{ scale: 1.02 }}
+
                         className="overflow-hidden rounded-2xl border border-white/10 bg-[#0d1117] shadow-2xl"
                     >
                         {/* Terminal header */}

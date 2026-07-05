@@ -60,8 +60,7 @@ export default function ExperienceSection({ experiences }: ExperienceSectionProp
 
                                     {/* Card */}
                                     <motion.div 
-                                        whileHover={{ x: 10, borderColor: 'rgba(74, 222, 128, 0.3)' }}
-                                        className="flex-1 bg-[#252a40] border border-white/5 hover:border-green-400/20 rounded-2xl p-6 transition-all"
+                                        className="flex-1 bg-[#252a40] border border-white/5 hover:border-green-400/20 rounded-2xl p-6 transition-colors"
                                     >
                                         <div className="flex flex-wrap items-start justify-between gap-2 mb-3">
                                             <div>

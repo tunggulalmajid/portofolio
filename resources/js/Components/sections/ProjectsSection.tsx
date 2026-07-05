@@ -37,8 +37,7 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true, margin: "-50px" }}
                             transition={{ duration: 0.5, delay: index * 0.1 }}
-                            whileHover={{ y: -8 }}
-                            className="group bg-[#252a40] border border-white/5 hover:border-green-400/20 rounded-2xl overflow-hidden transition-all hover:shadow-xl hover:shadow-green-900/10"
+                            className="group bg-[#252a40] border border-white/5 hover:border-green-400/20 rounded-2xl overflow-hidden transition-colors"
                         >
                             {/* Thumbnail */}
                             <div className="aspect-video bg-[#1e2235] overflow-hidden relative">
@@ -46,7 +45,7 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
                                     <img
                                         src={project.thumbnail_url}
                                         alt={project.title}
-                                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-150"
                                     />
                                 ) : (
                                     <div className="w-full h-full flex items-center justify-center">

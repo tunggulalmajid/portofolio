@@ -36,8 +36,7 @@ export default function CertificatesSection({ certificates }: CertificatesSectio
                             whileInView={{ opacity: 1, scale: 1 }}
                             viewport={{ once: true, margin: "-50px" }}
                             transition={{ duration: 0.4, delay: index * 0.1 }}
-                            whileHover={{ y: -8 }}
-                            className="group bg-[#1e2235] border border-white/5 hover:border-green-400/20 rounded-2xl overflow-hidden transition-all hover:shadow-lg"
+                            className="group bg-[#1e2235] border border-white/5 hover:border-green-400/20 rounded-2xl overflow-hidden transition-colors"
                         >
                             {/* Certificate image */}
                             <div className="w-full h-40 bg-[#151929] overflow-hidden flex items-center justify-center relative group/img">
@@ -46,7 +45,7 @@ export default function CertificatesSection({ certificates }: CertificatesSectio
                                         <img
                                             src={cert.image_url}
                                             alt={cert.title}
-                                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-150"
                                         />
                                         <button
                                             onClick={() => openImagePreview(cert.image_url!)}

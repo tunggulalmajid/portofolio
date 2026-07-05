@@ -92,8 +92,7 @@ export default function ContactSection({ contacts }: ContactSectionProps) {
                                     whileInView={{ opacity: 1, x: 0 }}
                                     viewport={{ once: true }}
                                     transition={{ duration: 0.4, delay: 0.3 + index * 0.1 }}
-                                    whileHover={{ x: 5 }}
-                                    className="flex items-center gap-4 p-4 bg-[#252a40] border border-white/5 rounded-xl hover:border-green-400/20 transition-all"
+                                    className="flex items-center gap-4 p-4 bg-[#252a40] border border-white/5 rounded-xl hover:border-green-400/20 transition-colors"
                                 >
                                     <div className="w-9 h-9 bg-green-400/10 rounded-lg flex items-center justify-center text-green-400 flex-shrink-0">
                                         {iconMap[contact.type] ?? <Globe size={18} />}
@@ -159,9 +158,8 @@ export default function ContactSection({ contacts }: ContactSectionProps) {
                         <motion.button
                             type="submit"
                             disabled={status === 'sending'}
-                            whileHover={{ scale: status === 'sending' ? 1 : 1.02 }}
                             whileTap={{ scale: status === 'sending' ? 1 : 0.98 }}
-                            className="w-full flex items-center justify-center gap-2 px-6 py-3.5 bg-green-400 hover:bg-green-300 disabled:opacity-60 text-[#1e2235] font-semibold rounded-xl transition-all text-sm"
+                            className="w-full flex items-center justify-center gap-2 px-6 py-3.5 bg-green-400 hover:bg-green-300 disabled:opacity-60 text-[#1e2235] font-semibold rounded-xl transition-colors text-sm"
                         >
                             <Send size={16} />
                             {status === 'sending' ? 'Sending...' : status === 'sent' ? 'Message Sent!' : 'Send Message'}

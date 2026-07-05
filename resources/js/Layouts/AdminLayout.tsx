@@ -58,7 +58,7 @@ export default function AdminLayout({ title, children }: AdminLayoutProps) {
 
     const Sidebar = ({ isMobile = false }) => (
         <aside
-            className={`flex flex-col bg-[#1e2235] border-r border-white/5 transition-all duration-300 ${
+            className={`flex flex-col bg-[#1e2235] border-r border-white/5 transition-all duration-200 ${
                 isMobile ? 'w-64' : collapsed ? 'w-16' : 'w-64'
             } ${isMobile ? '' : 'hidden md:flex'}`}
         >
