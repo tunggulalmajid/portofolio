@@ -43,26 +43,46 @@ class Experience extends Model
         return "{$start} – {$end}";
     }
 
+    /**
+     * @param \Illuminate\Database\Eloquent\Builder<\App\Models\Experience> $query
+     * @return \Illuminate\Database\Eloquent\Builder<\App\Models\Experience>
+     */
     public function scopeActive(Builder $query): Builder
     {
         return $query->where('is_active', true);
     }
 
+    /**
+     * @param \Illuminate\Database\Eloquent\Builder<\App\Models\Experience> $query
+     * @return \Illuminate\Database\Eloquent\Builder<\App\Models\Experience>
+     */
     public function scopeWork(Builder $query): Builder
     {
         return $query->where('type', 'work');
     }
 
+    /**
+     * @param \Illuminate\Database\Eloquent\Builder<\App\Models\Experience> $query
+     * @return \Illuminate\Database\Eloquent\Builder<\App\Models\Experience>
+     */
     public function scopeEducation(Builder $query): Builder
     {
         return $query->where('type', 'education');
     }
 
+    /**
+     * @param \Illuminate\Database\Eloquent\Builder<\App\Models\Experience> $query
+     * @return \Illuminate\Database\Eloquent\Builder<\App\Models\Experience>
+     */
     public function scopeOrganization(Builder $query): Builder
     {
         return $query->where('type', 'organization');
     }
 
+    /**
+     * @param \Illuminate\Database\Eloquent\Builder<\App\Models\Experience> $query
+     * @return \Illuminate\Database\Eloquent\Builder<\App\Models\Experience>
+     */
     public function scopeOrdered(Builder $query): Builder
     {
         return $query->orderBy('order')->orderByDesc('start_date');

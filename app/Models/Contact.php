@@ -22,11 +22,19 @@ class Contact extends Model
         'order'     => 'integer',
     ];
 
+    /**
+     * @param \Illuminate\Database\Eloquent\Builder<\App\Models\Contact> $query
+     * @return \Illuminate\Database\Eloquent\Builder<\App\Models\Contact>
+     */
     public function scopeActive(Builder $query): Builder
     {
         return $query->where('is_active', true);
     }
 
+    /**
+     * @param \Illuminate\Database\Eloquent\Builder<\App\Models\Contact> $query
+     * @return \Illuminate\Database\Eloquent\Builder<\App\Models\Contact>
+     */
     public function scopeOrdered(Builder $query): Builder
     {
         return $query->orderBy('order');

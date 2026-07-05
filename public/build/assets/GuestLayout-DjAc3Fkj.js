@@ -1,1 +1,0 @@
-import{j as s,H as t}from"./app-DnXg1BRn.js";import{N as n,F as o}from"./Navbar-HeiEKoLi.js";function m({title:a,contacts:r=[],children:e}){return s.jsxs(s.Fragment,{children:[a&&s.jsx(t,{title:a}),s.jsxs("div",{className:"min-h-screen bg-gray-950 text-white",children:[s.jsx(n,{}),s.jsx("main",{children:e}),s.jsx(o,{contacts:r})]})]})}export{m as G};

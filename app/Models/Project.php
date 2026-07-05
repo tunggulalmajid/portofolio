@@ -53,29 +53,49 @@ class Project extends Model
         return $this->thumbnail ? asset('storage/' . $this->thumbnail) : null;
     }
 
+    /**
+     * @return array<int, string>
+     */
     public function getImagesUrlAttribute(): array
     {
-        if (!$this->images) {
+        if (empty($this->images) || !is_array($this->images)) {
             return [];
         }
         return array_map(fn($img) => asset('storage/' . $img), $this->images);
     }
 
+    /**
+     * @param \Illuminate\Database\Eloquent\Builder<\App\Models\Project> $query
+     * @return \Illuminate\Database\Eloquent\Builder<\App\Models\Project>
+     */
     public function scopeActive(Builder $query): Builder
     {
         return $query->where('is_active', true);
     }
 
+    /**
+     * @param \Illuminate\Database\Eloquent\Builder<\App\Models\Project> $query
+     * @return \Illuminate\Database\Eloquent\Builder<\App\Models\Project>
+     */
     public function scopeFeatured(Builder $query): Builder
     {
         return $query->where('is_featured', true);
     }
 
+    /**
+     * @param \Illuminate\Database\Eloquent\Builder<\App\Models\Project> $query
+     * @return \Illuminate\Database\Eloquent\Builder<\App\Models\Project>
+     */
     public function scopeOrdered(Builder $query): Builder
     {
         return $query->orderBy('order')->orderByDesc('created_at');
     }
 
+    /**
+     * @param \Illuminate\Database\Eloquent\Builder<\App\Models\Project> $query
+     * @param string $category
+     * @return \Illuminate\Database\Eloquent\Builder<\App\Models\Project>
+     */
     public function scopeByCategory(Builder $query, string $category): Builder
     {
         return $query->where('category', $category);

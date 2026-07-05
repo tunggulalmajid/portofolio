@@ -39,11 +39,19 @@ class Certificate extends Model
         return $this->expiry_date && $this->expiry_date->isPast();
     }
 
+    /**
+     * @param \Illuminate\Database\Eloquent\Builder<\App\Models\Certificate> $query
+     * @return \Illuminate\Database\Eloquent\Builder<\App\Models\Certificate>
+     */
     public function scopeActive(Builder $query): Builder
     {
         return $query->where('is_active', true);
     }
 
+    /**
+     * @param \Illuminate\Database\Eloquent\Builder<\App\Models\Certificate> $query
+     * @return \Illuminate\Database\Eloquent\Builder<\App\Models\Certificate>
+     */
     public function scopeOrdered(Builder $query): Builder
     {
         return $query->orderBy('order')->orderByDesc('issue_date');
